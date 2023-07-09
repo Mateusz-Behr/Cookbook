@@ -28,11 +28,9 @@ namespace Cookbook
             Console.WriteLine();
             return operation;
         }
-        public List<Recipe> FilterRecipes(char filter) 
+        public List<Recipe> FilterRecipes(int filter) 
         {
-            Int32.TryParse(filter.ToString(), out int recipesFilter);
-
-            switch (recipesFilter)
+            switch (filter)
             {
                 case '1':
                     return Recipes.OrderBy(r => r.Name).ToList();

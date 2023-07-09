@@ -47,9 +47,8 @@ namespace Cookbook
                 {
                     case '1':
                         var showRecipe = filterService.ShowRecipesByFilterView(actionService);
-                        filterService.FilterRecipes(showRecipe.KeyChar);
-
-                        recipeService.DisplayRecipes(); // ????
+                        var filteredRecipes = filterService.FilterRecipes(showRecipe.KeyChar);
+                        recipeService.DisplayRecipes(filteredRecipes);
                         break;
                     case '2':
                         var keyInfo = recipeService.AddNewRecipeView(actionService);

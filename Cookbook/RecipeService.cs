@@ -111,6 +111,7 @@ namespace Cookbook
 
                 if (confirmation == "Y")
                 {
+                    Console.WriteLine($"{recipeToRemove.Name} has been removed from Cookbook successfully");
                     Recipes.Remove(recipeToRemove); 
                 }
                 else
@@ -124,13 +125,13 @@ namespace Cookbook
             }
         }
 
-        public void DisplayRecipes(RecipesFilterService filterService) // ????
+        public void DisplayRecipes(List<Recipe> Recipes)
         {
-            List<Recipe> filteredRecipes = filterService.FilterRecipes(); // argument?
-            if (filteredRecipes.Count > 0)
+            
+            if (Recipes.Count > 0)
             {
                 Console.WriteLine("\nRecipes you are looking for: ");
-                foreach (Recipe recipe in filteredRecipes)
+                foreach (Recipe recipe in Recipes)
                 {
                     Console.WriteLine($"ID: {recipe.Id}\nName: {recipe.Name}\nIngredients: {recipe.Ingredients}\nInstructions: {recipe.Instructions}");
                     Console.WriteLine($"MealType: {recipe.MealType}\nPreparation time: {recipe.PreparationTime}");
