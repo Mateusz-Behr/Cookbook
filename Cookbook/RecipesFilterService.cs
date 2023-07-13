@@ -8,13 +8,6 @@ namespace Cookbook
 {
     public class RecipesFilterService
     {
-        public List<Recipe> Recipes { get; set; }
-
-        public RecipesFilterService()
-        {
-            Recipes = new List<Recipe>();
-        }
-
         public ConsoleKeyInfo ShowRecipesByFilterView(MenuActionService actionService)
         {
             var showRecipesByFilterMenu = actionService.GetMenuActionsByMenuName("ShowRecipesByFilterMenu");
@@ -30,6 +23,8 @@ namespace Cookbook
         }
         public List<Recipe> FilterRecipes(int filter) 
         {
+            RecipeService recipesList = new RecipeService();
+            List<Recipe> Recipes = recipesList.GetList();
             switch (filter)
             {
                 case '1':

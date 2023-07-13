@@ -15,6 +15,10 @@ namespace Cookbook
         {
             Recipes = new List<Recipe>();
         }
+        public List<Recipe> GetList()
+        {
+            return Recipes;
+        }
               
         public ConsoleKeyInfo AddNewRecipeView(MenuActionService actionService)
         {
@@ -106,7 +110,7 @@ namespace Cookbook
 
             if (recipeToRemove != null)
             {
-                Console.WriteLine($"Do you really want to remove this {recipeToRemove.Name} Recipe? Y/N");
+                Console.WriteLine($"\nDo you really want to remove this {recipeToRemove.Name} Recipe? Y/N");
                 string confirmation = Console.ReadLine().ToUpper();
 
                 if (confirmation == "Y")
@@ -125,13 +129,13 @@ namespace Cookbook
             }
         }
 
-        public void DisplayRecipes(List<Recipe> Recipes)
+        public void DisplayRecipes(List<Recipe> recipes)
         {
             
-            if (Recipes.Count > 0)
+            if (recipes.Count > 0)
             {
                 Console.WriteLine("\nRecipes you are looking for: ");
-                foreach (Recipe recipe in Recipes)
+                foreach (Recipe recipe in recipes)
                 {
                     Console.WriteLine($"ID: {recipe.Id}\nName: {recipe.Name}\nIngredients: {recipe.Ingredients}\nInstructions: {recipe.Instructions}");
                     Console.WriteLine($"MealType: {recipe.MealType}\nPreparation time: {recipe.PreparationTime}");
