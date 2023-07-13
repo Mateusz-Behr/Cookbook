@@ -15,10 +15,7 @@ namespace Cookbook
         {
             Recipes = new List<Recipe>();
         }
-        public List<Recipe> GetList()
-        {
-            return Recipes;
-        }
+
               
         public ConsoleKeyInfo AddNewRecipeView(MenuActionService actionService)
         {
@@ -54,9 +51,18 @@ namespace Cookbook
 
                 Console.WriteLine("Please enter the cooking time in minutes: ");
                 Int32.TryParse(Console.ReadLine(), out int preparationTime);
-            
 
-                recipe.Id = recipe.GetFirstUnused();
+
+                if (Recipe.freeIds.Count > 0)
+                {
+                    recipe.Id = Recipe.freeIds[0];
+                    Recipe.freeIds.RemoveAt(0);
+                }
+                else
+                {
+                    recipe.Id = Recipe.nextId;
+                    Recipe.nextId++;
+                }
                 recipe.Name = name;
                 recipe.Ingredients = ingredients;
                 recipe.Instructions = instructions;
@@ -116,6 +122,7 @@ namespace Cookbook
                 if (confirmation == "Y")
                 {
                     Console.WriteLine($"{recipeToRemove.Name} has been removed from Cookbook successfully");
+                    Recipe.freeIds.Add(recipeToRemove.Id);
                     Recipes.Remove(recipeToRemove); 
                 }
                 else
@@ -129,6 +136,48 @@ namespace Cookbook
             }
         }
 
+        public ConsoleKeyInfo ShowRecipesByFilterView(MenuActionService actionService)
+        {
+            var showRecipesByFilterMenu = actionService.GetMenuActionsByMenuName("ShowRecipesByFilterMenu");
+            Console.WriteLine("How would you like to view the recipes?");
+            for (int i = 0; i < showRecipesByFilterMenu.Count; i++)
+            {
+                Console.WriteLine($"{showRecipesByFilterMenu[i].Id}. {showRecipesByFilterMenu[i].Name}");
+            }
+
+            var operation = Console.ReadKey();
+            Console.WriteLine();
+            return operation;
+        }
+        public List<Recipe> FilterRecipes(int filter)
+        {
+
+            switch (filter)
+            {
+                case '1':
+                    return Recipes.OrderBy(r => r.Name).ToList();
+                case '2':
+                    Console.WriteLine("Enter type of meals you want to show: (pick one - breakfest/lunch/dessert/dinner) ");
+                    string recipeType = Console.ReadLine();
+                    return Recipes.Where(r => r.MealType.ToLower() == recipeType.ToLower()).ToList();
+                case '3':
+                    Console.WriteLine("Enter an ingredient to filter by: ");
+                    string ingredient = Console.ReadLine().ToLower();
+                    return Recipes.Where(r => r.Ingredients.Contains(ingredient)).ToList();
+                case '4':
+                    Console.WriteLine("Enter maximum preparation time (in minutes): ");
+                    Int32.TryParse(Console.ReadLine(), out int maxPreparationTime);
+                    return Recipes.Where(r => r.PreparationTime <= maxPreparationTime).ToList();
+                case '5':
+                    Console.WriteLine("Enter a name of recipe you are looking for: ");
+                    string recipeName = Console.ReadLine();
+                    return Recipes.Where(r => r.Name.ToLower().Contains(recipeName.ToLower())).ToList();
+                default:
+                    Console.WriteLine("Filter has not been chosen.");
+                    return new List<Recipe>();
+            }
+        }
+
         public void DisplayRecipes(List<Recipe> recipes)
         {
             
@@ -137,7 +186,7 @@ namespace Cookbook
                 Console.WriteLine("\nRecipes you are looking for: ");
                 foreach (Recipe recipe in recipes)
                 {
-                    Console.WriteLine($"ID: {recipe.Id}\nName: {recipe.Name}\nIngredients: {recipe.Ingredients}\nInstructions: {recipe.Instructions}");
+                    Console.WriteLine($"Name: {recipe.Name}\nId: {recipe.Id}\nIngredients: {recipe.Ingredients}\nInstructions: {recipe.Instructions}");
                     Console.WriteLine($"MealType: {recipe.MealType}\nPreparation time: {recipe.PreparationTime}");
                 }
             }

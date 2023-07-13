@@ -9,9 +9,8 @@ namespace Cookbook
 {
     public class Recipe
     {
-        private const int MAX_RECIPES = 500;
-        private static bool[] usedIds = new bool[MAX_RECIPES];
-      
+        public static int nextId = 1;
+        public static List<int> freeIds = new List<int>();
         public int Id { get; set; }
 
         public string Name { get; set; }
@@ -20,24 +19,5 @@ namespace Cookbook
         public string MealType { get; set; }
         public int PreparationTime { get; set; }
 
-        public Recipe()  //auto_increment Id
-        {
-            this.Id = GetFirstUnused();
-        }
-
-        public int GetFirstUnused()
-        {
-            int foundId = -1;
-            for(int i = 0; i < MAX_RECIPES; i++)
-            {
-                if (usedIds[i] == false)
-                {
-                    foundId = i;
-                    usedIds[i] = true;
-                    break;
-                }
-            }
-            return foundId;
-        }
     }
 }

@@ -12,24 +12,20 @@ namespace Cookbook
 
             //Przywitanie użytkownika
             //Wybór akcji przez użytkownika - exit ==> wyjście
-            ////a. wyświetl przepisy wg filtra
-            ////b. dodaj przepis
+
             ////c. przelicz wartości
-            ////d. usuń przepis podając Id przepisu
-            /////a1. alfabetycznie
-            /////a2. wg rodzaju daniu (śniadanie, obiad, deser, kolacja)
-            /////a3. wg konkretnego składnika
-            /////a4. czas przygotowania (< 30 min, 30 - 60 min, ponad 60 min)
-            /////a5. wg konkretnej nazwy
-            /////c1. podaj jaką jednostkę chcesz przeliczyć
-            /////c2. podaj wartość
-            /////c3. Jaką jednostkę chcesz otrzymać?
-            /////c4. Wynik przeliczenia
+
+            /////a3. wg konkretnego składnika ?
+
+            /////c1. wybierz produkt
+            /////c2. podaj jednostkę jaką chcesz przeliczyć
+            /////c3. podaj wartość
+            /////c4. Jaką jednostkę chcesz otrzymać?
+            /////c5. Wynik przeliczenia
    
             MenuActionService actionService = new MenuActionService();
             actionService = Initialize(actionService);
             RecipeService recipeService = new RecipeService();
-            RecipesFilterService filterService = new RecipesFilterService();
 
             Console.WriteLine("Welcome to Cookbook App.");
             while (true)
@@ -47,8 +43,8 @@ namespace Cookbook
                 switch (operation.KeyChar)
                 {
                     case '1':
-                        var showRecipe = filterService.ShowRecipesByFilterView(actionService);
-                        var filteredRecipes = filterService.FilterRecipes(showRecipe.KeyChar);
+                        var showRecipe = recipeService.ShowRecipesByFilterView(actionService);
+                        var filteredRecipes = recipeService.FilterRecipes(showRecipe.KeyChar);
                         recipeService.DisplayRecipes(filteredRecipes);
                         break;
                     case '2':
