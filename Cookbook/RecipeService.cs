@@ -44,7 +44,7 @@ namespace Cookbook
 
                 Console.WriteLine("Please enter ingredients (comma-separated)");
                 string ingredientsInput = Console.ReadLine();
-                List<string> ingredients = new List<string> (ingredientsInput.ToLower().Split(','));
+                List<string> ingredients = new List<string> (ingredientsInput.ToLower().Split(", "));
 
                 Console.WriteLine("Please enter instructions: ");
                 string instructions = Console.ReadLine();
@@ -186,7 +186,9 @@ namespace Cookbook
                 Console.WriteLine("\nRecipes you are looking for: ");
                 foreach (Recipe recipe in recipes)
                 {
-                    Console.WriteLine($"Name: {recipe.Name}\nId: {recipe.Id}\nIngredients: {recipe.Ingredients}\nInstructions: {recipe.Instructions}");
+                    Console.WriteLine($"\nName: {recipe.Name}\nId: {recipe.Id}");
+                    Console.WriteLine("Instructions: " + string.Join(", ", recipe.Ingredients));
+                    Console.WriteLine($"Instructions: {recipe.Instructions}");
                     Console.WriteLine($"MealType: {recipe.MealType}\nPreparation time: {recipe.PreparationTime}");
                 }
             }
