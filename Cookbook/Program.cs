@@ -10,28 +10,18 @@ namespace Cookbook
         static void Main(string[] args)
         {
 
-            //Przywitanie użytkownika
-            //Wybór akcji przez użytkownika - exit ==> wyjście
-
-            ////c. przelicz wartości
-
-            /////a3. wg konkretnego składnika ?
-
-            /////c1. wybierz produkt
-            /////c2. podaj jednostkę jaką chcesz przeliczyć
-            /////c3. podaj wartość
-            /////c4. Jaką jednostkę chcesz otrzymać?
-            /////c5. Wynik przeliczenia
+            //Ad 3. Co w przypadku błędnego indeksu produktów lub indeksów?
    
             MenuActionService actionService = new MenuActionService();
             actionService = Initialize(actionService);
             RecipeService recipeService = new RecipeService();
+            UnitsConverter unitsConverter = new UnitsConverter();
 
             Console.WriteLine("Welcome to Cookbook App.");
             while (true)
             {
 
-                Console.WriteLine("What would you like to do?");
+                Console.WriteLine("\nWhat would you like to do?");
                 var mainMenu = actionService.GetMenuActionsByMenuName("Main");
                 for (int i = 0; i < mainMenu.Count; i++)
                 {
@@ -52,17 +42,21 @@ namespace Cookbook
                         recipeService.AddNewRecipe(keyInfo.KeyChar);
                         break;
                     case '3':
+                        var showProducts = unitsConverter.ShowProducts(actionService);
+                        var unitToCalculate = unitsConverter.UnitToCalculate(actionService);
+                        var chosenProduct = unitsConverter.ChosenProduct(showProducts.KeyChar);
+                        unitsConverter.RecalculateUnits(unitToCalculate.KeyChar, chosenProduct);
                         break;
                     case '4':
                         var removeId = recipeService.RemoveRecipeView();
                         recipeService.RemoveRecipe(removeId);
                         break;
                     case '9':
-                        Console.WriteLine(" Thank you for using the Cookbook App. See you soon!");
+                        Console.WriteLine("\nThank you for using the Cookbook App. See you soon!");
                         Environment.Exit(0);
                         break;
                     default:
-                        Console.WriteLine(" You chose the wrong action, try again.");
+                        Console.WriteLine("\nYou chose the wrong action, try again.");
                         break;
                 }
             }
@@ -86,6 +80,19 @@ namespace Cookbook
             actionsService.AddNewAction(3, "According to a specific ingredient", "ShowRecipesByFilterMenu");
             actionsService.AddNewAction(4, "According to preparation time", "ShowRecipesByFilterMenu");
             actionsService.AddNewAction(5, "Specific meal by a name", "ShowRecipesByFilterMenu");
+
+            actionsService.AddNewAction(1, "Water", "ShowProductsMenu");
+            actionsService.AddNewAction(2, "Sugar", "ShowProductsMenu");
+            actionsService.AddNewAction(3, "Butter", "ShowProductsMenu");
+            actionsService.AddNewAction(4, "Wheat Flour", "ShowProductsMenu");
+            actionsService.AddNewAction(5, "Oil", "ShowProductsMenu");
+            actionsService.AddNewAction(6, "Cream 18%", "ShowProductsMenu");
+
+            actionsService.AddNewAction(1, "Grams", "ShowUnitsMenu");
+            actionsService.AddNewAction(2, "Mililiters", "ShowUnitsMenu");
+            actionsService.AddNewAction(3, "Glasses", "ShowUnitsMenu");
+            actionsService.AddNewAction(4, "Spoons", "ShowUnitsMenu");
+            actionsService.AddNewAction(5, "Teaspoons", "ShowUnitsMenu");
 
             return actionsService;
         }

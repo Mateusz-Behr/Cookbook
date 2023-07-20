@@ -20,7 +20,7 @@ namespace Cookbook
         public ConsoleKeyInfo AddNewRecipeView(MenuActionService actionService)
         {
             var addNewRecipeMenu = actionService.GetMenuActionsByMenuName("AddNewRecipeMenu");
-            Console.WriteLine("What type of meal you want to add?");
+            Console.WriteLine("\nWhat type of meal you want to add?");
             for (int i = 0; i < addNewRecipeMenu.Count; i++)
             {
                 Console.WriteLine($"{addNewRecipeMenu[i].Id}. {addNewRecipeMenu[i].Name}");
@@ -39,17 +39,17 @@ namespace Cookbook
             {
                 Recipe recipe = new Recipe();
 
-                Console.WriteLine("Please enter a recipe name: ");
+                Console.WriteLine("\nPlease enter a recipe name: ");
                 var name = Console.ReadLine();
 
-                Console.WriteLine("Please enter ingredients (comma-separated)");
+                Console.WriteLine("\nPlease enter ingredients (comma-separated)");
                 string ingredientsInput = Console.ReadLine();
                 List<string> ingredients = new List<string> (ingredientsInput.ToLower().Split(", "));
 
-                Console.WriteLine("Please enter instructions: ");
+                Console.WriteLine("\nPlease enter instructions: ");
                 string instructions = Console.ReadLine();
 
-                Console.WriteLine("Please enter the cooking time in minutes: ");
+                Console.WriteLine("\nPlease enter the cooking time in minutes: ");
                 Int32.TryParse(Console.ReadLine(), out int preparationTime);
 
 
@@ -84,18 +84,18 @@ namespace Cookbook
                 recipe.PreparationTime = preparationTime;
 
                 Recipes.Add(recipe);
-                Console.WriteLine("Recipe added successfully!");
+                Console.WriteLine("\nRecipe added successfully!");
             }
             else
             {
                 Console.WriteLine();
-                Console.WriteLine("Wrong meal type.");
+                Console.WriteLine("\nWrong meal type.");
             }
         }
 
         public int RemoveRecipeView()
         {
-            Console.WriteLine("Please enter Id for recipe you want to remove: ");
+            Console.WriteLine("\nPlease enter Id for recipe you want to remove: ");
             int removeId;
             Int32.TryParse(Console.ReadKey().KeyChar.ToString(), out removeId);
 
@@ -121,25 +121,25 @@ namespace Cookbook
 
                 if (confirmation == "Y")
                 {
-                    Console.WriteLine($"{recipeToRemove.Name} has been removed from Cookbook successfully");
+                    Console.WriteLine($"\n{recipeToRemove.Name} has been removed from Cookbook successfully");
                     Recipe.freeIds.Add(recipeToRemove.Id);
                     Recipes.Remove(recipeToRemove); 
                 }
                 else
                 {
-                    Console.WriteLine("Recipe removal cancelled.");
+                    Console.WriteLine("\nRecipe removal cancelled.");
                 }
             }
             else
             {
-                Console.WriteLine("Recipe not found.");
+                Console.WriteLine("\nRecipe not found.");
             }
         }
 
         public ConsoleKeyInfo ShowRecipesByFilterView(MenuActionService actionService)
         {
             var showRecipesByFilterMenu = actionService.GetMenuActionsByMenuName("ShowRecipesByFilterMenu");
-            Console.WriteLine("How would you like to view the recipes?");
+            Console.WriteLine("\nHow would you like to view the recipes?");
             for (int i = 0; i < showRecipesByFilterMenu.Count; i++)
             {
                 Console.WriteLine($"{showRecipesByFilterMenu[i].Id}. {showRecipesByFilterMenu[i].Name}");
@@ -157,23 +157,23 @@ namespace Cookbook
                 case '1':
                     return Recipes.OrderBy(r => r.Name).ToList();
                 case '2':
-                    Console.WriteLine("Enter type of meals you want to show: (pick one - breakfest/lunch/dessert/dinner) ");
+                    Console.WriteLine("\nEnter type of meals you want to show: (pick one - breakfest/lunch/dessert/dinner) ");
                     string recipeType = Console.ReadLine();
                     return Recipes.Where(r => r.MealType.ToLower() == recipeType.ToLower()).ToList();
                 case '3':
-                    Console.WriteLine("Enter an ingredient to filter by: ");
+                    Console.WriteLine("\nEnter an ingredient to filter by: ");
                     string ingredient = Console.ReadLine().ToLower();
                     return Recipes.Where(r => r.Ingredients.Contains(ingredient)).ToList();
                 case '4':
-                    Console.WriteLine("Enter maximum preparation time (in minutes): ");
+                    Console.WriteLine("\nEnter maximum preparation time (in minutes): ");
                     Int32.TryParse(Console.ReadLine(), out int maxPreparationTime);
                     return Recipes.Where(r => r.PreparationTime <= maxPreparationTime).ToList();
                 case '5':
-                    Console.WriteLine("Enter a name of recipe you are looking for: ");
+                    Console.WriteLine("\nEnter a name of recipe you are looking for: ");
                     string recipeName = Console.ReadLine();
                     return Recipes.Where(r => r.Name.ToLower().Contains(recipeName.ToLower())).ToList();
                 default:
-                    Console.WriteLine("Filter has not been chosen.");
+                    Console.WriteLine("\nFilter has not been chosen.");
                     return new List<Recipe>();
             }
         }
@@ -194,7 +194,7 @@ namespace Cookbook
             }
             else
             {
-                Console.WriteLine("No recipes found.");
+                Console.WriteLine("\nNo recipes found.");
             }
         }
 
