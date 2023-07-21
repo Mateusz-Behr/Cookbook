@@ -8,10 +8,7 @@ namespace Cookbook
     {
         public const string FILE_NAME = "F:\\Cookbook App\\Recipes.xlsx";
         static void Main(string[] args)
-        {
-
-            //Ad 3. Co w przypadku błędnego indeksu produktów lub indeksów?
-   
+        {   
             MenuActionService actionService = new MenuActionService();
             actionService = Initialize(actionService);
             RecipeService recipeService = new RecipeService();
