@@ -89,7 +89,7 @@ namespace Cookbook
             else
             {
                 Console.WriteLine();
-                Console.WriteLine("\nWrong meal type.");
+                Console.WriteLine("Wrong meal type.");
             }
         }
 
@@ -114,9 +114,9 @@ namespace Cookbook
                 }
             }
 
-            if (recipeToRemove != null)
+            if (recipeToRemove.Name != null && recipeToRemove.Instructions != null)
             {
-                Console.WriteLine($"\nDo you really want to remove this {recipeToRemove.Name} Recipe? Y/N");
+                Console.WriteLine($"\nDo you really want to remove {recipeToRemove.Name} Recipe? Y/N");
                 string confirmation = Console.ReadLine().ToUpper();
 
                 if (confirmation == "Y")

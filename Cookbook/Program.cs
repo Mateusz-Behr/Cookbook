@@ -43,8 +43,8 @@ namespace Cookbook
                         break;
                     case '3':
                         var showProducts = unitsConverter.ShowProducts(actionService);
-                        var unitToCalculate = unitsConverter.UnitToCalculate(actionService);
                         var chosenProduct = unitsConverter.ChosenProduct(showProducts.KeyChar);
+                        var unitToCalculate = unitsConverter.UnitToCalculate(actionService);
                         unitsConverter.RecalculateUnits(unitToCalculate.KeyChar, chosenProduct);
                         break;
                     case '4':

@@ -26,20 +26,6 @@ namespace Cookbook
 
         }
 
-        public ConsoleKeyInfo UnitToCalculate(MenuActionService actionService)
-        {
-            var showUnitsMenu = actionService.GetMenuActionsByMenuName("ShowUnitsMenu");
-            Console.WriteLine("\nChoose a unit you want to recalculate:");
-            for (int i = 0; i < showUnitsMenu.Count; i++)
-            {
-                Console.WriteLine($"{showUnitsMenu[i].Id}. {showUnitsMenu[i].Name}");
-            }
-
-            var chosenUnit = Console.ReadKey();
-            Console.WriteLine();
-            return chosenUnit;
-        }
-
         public Dictionary<string, List<double>> ChosenProduct(int chosenProduct)
         {
             switch (chosenProduct)
@@ -57,54 +43,76 @@ namespace Cookbook
                 case '6':
                     return productsForConverting.GetDictionary(5);
                 default:
+                    Console.WriteLine("There is no product with that index on list.");
                     return new Dictionary<string, List<double>>();
             }
         }
 
-        public void RecalculateUnits(int chosenUnit, Dictionary<string, List<double>> product)
+        public ConsoleKeyInfo UnitToCalculate(MenuActionService actionService)
         {
-            Console.WriteLine("\nEnter a value:");
-            Double.TryParse(Console.ReadLine(), out double valueToRecalculate);
-            switch (chosenUnit)
+            var showUnitsMenu = actionService.GetMenuActionsByMenuName("ShowUnitsMenu");
+            Console.WriteLine("\nChoose a unit you want to recalculate:");
+            for (int i = 0; i < showUnitsMenu.Count; i++)
             {
-                case '1':
-                    List<double> unitsFromG = product["g"];
-                    Console.WriteLine($"{valueToRecalculate} gram(s) = {Math.Round(valueToRecalculate * unitsFromG[0], 2)} mililiter(s);" +
-                        $" {Math.Round(valueToRecalculate * unitsFromG[1]), 2} glass(es); " +
-                        $" {Math.Round(valueToRecalculate * unitsFromG[2], 2)} spoon(s); " +
-                        $" {Math.Round(valueToRecalculate * unitsFromG[3], 2)} teaspoon(s)");
-                    break;
-                case '2':
-                    List<double> unitsFromMl = product["ml"];
-                    Console.WriteLine($"{valueToRecalculate} mililiter(s) = {Math.Round(valueToRecalculate * unitsFromMl[0], 2)} gram(s);" +
-                        $" {Math.Round(valueToRecalculate * unitsFromMl[1], 2)} glass(es);" +
-                        $" {Math.Round(valueToRecalculate * unitsFromMl[2], 2)} spoon(s);" +
-                        $" {Math.Round(valueToRecalculate * unitsFromMl[3], 2)} teaspoon(s)");
-                    break;
-                case '3':
-                    List<double> unitsFromGlass = product["glass"];
-                    Console.WriteLine($"{valueToRecalculate} glass(es) = {Math.Round(valueToRecalculate * unitsFromGlass[0], 2)} gram(s);" +
-                        $" {Math.Round(valueToRecalculate * unitsFromGlass[1], 2)} mililiter(s);" +
-                        $" {Math.Round(valueToRecalculate * unitsFromGlass[2], 2)} spoon(s);" +
-                        $" {Math.Round(valueToRecalculate * unitsFromGlass[3], 2)} teaspoon(s)");
-                    break;
-                case '4':
-                    List<double> unitsFromSpoon = product["spoon"];
-                    Console.WriteLine($"{valueToRecalculate} spoon(s) = {Math.Round(valueToRecalculate * unitsFromSpoon[0], 2)} gram(s);" +
-                        $" {Math.Round(valueToRecalculate * unitsFromSpoon[1], 2)} mililiter(s);" +
-                        $" {Math.Round(valueToRecalculate * unitsFromSpoon[2], 2)} glass(es);" +
-                        $" {Math.Round(valueToRecalculate * unitsFromSpoon[3], 2)} teaspoon(s)");
-                    break;
-                case '5':
-                    List<double> unitsFromTeaspoon = product["teaspoon"];
-                    Console.WriteLine($"{valueToRecalculate} teaspoon(s) = {Math.Round(valueToRecalculate * unitsFromTeaspoon[0], 2)} gram(s);" +
-                        $" {Math.Round(valueToRecalculate * unitsFromTeaspoon[1], 2)} mililiter(s);" +
-                        $" {Math.Round(valueToRecalculate * unitsFromTeaspoon[2], 2)} glass(es);" +
-                        $" {Math.Round(valueToRecalculate * unitsFromTeaspoon[3], 2)} spoon(s)");
-                    break;
-                default:
-                    Console.WriteLine("\nYou have chosen a wrong unit.");
-                    break;
+                Console.WriteLine($"{showUnitsMenu[i].Id}. {showUnitsMenu[i].Name}");
+            }
+
+            var chosenUnit = Console.ReadKey();
+            Console.WriteLine();
+            return chosenUnit;
+        }
+
+        public void RecalculateUnits(char chosenUnit, Dictionary<string, List<double>> product)
+        { 
+
+            int chosenUnitToCalculate = Convert.ToInt32(chosenUnit.ToString());
+
+            if (chosenUnitToCalculate >= 1 && chosenUnitToCalculate <= 5)
+            {
+                Console.WriteLine("\nEnter a value:");
+                Double.TryParse(Console.ReadLine(), out double valueToRecalculate);
+                switch (chosenUnitToCalculate)
+                {
+                    case 1:
+                        List<double> unitsFromG = product["g"];
+                        Console.WriteLine($"{valueToRecalculate} gram(s) = {Math.Round(valueToRecalculate * unitsFromG[0], 2)} mililiter(s);" +
+                            $" {Math.Round(valueToRecalculate * unitsFromG[1]),2} glass(es); " +
+                            $" {Math.Round(valueToRecalculate * unitsFromG[2], 2)} spoon(s); " +
+                            $" {Math.Round(valueToRecalculate * unitsFromG[3], 2)} teaspoon(s)");
+                        break;
+                    case 2:
+                        List<double> unitsFromMl = product["ml"];
+                        Console.WriteLine($"{valueToRecalculate} mililiter(s) = {Math.Round(valueToRecalculate * unitsFromMl[0], 2)} gram(s);" +
+                            $" {Math.Round(valueToRecalculate * unitsFromMl[1], 2)} glass(es);" +
+                            $" {Math.Round(valueToRecalculate * unitsFromMl[2], 2)} spoon(s);" +
+                            $" {Math.Round(valueToRecalculate * unitsFromMl[3], 2)} teaspoon(s)");
+                        break;
+                    case 3:
+                        List<double> unitsFromGlass = product["glass"];
+                        Console.WriteLine($"{valueToRecalculate} glass(es) = {Math.Round(valueToRecalculate * unitsFromGlass[0], 2)} gram(s);" +
+                            $" {Math.Round(valueToRecalculate * unitsFromGlass[1], 2)} mililiter(s);" +
+                            $" {Math.Round(valueToRecalculate * unitsFromGlass[2], 2)} spoon(s);" +
+                            $" {Math.Round(valueToRecalculate * unitsFromGlass[3], 2)} teaspoon(s)");
+                        break;
+                    case 4:
+                        List<double> unitsFromSpoon = product["spoon"];
+                        Console.WriteLine($"{valueToRecalculate} spoon(s) = {Math.Round(valueToRecalculate * unitsFromSpoon[0], 2)} gram(s);" +
+                            $" {Math.Round(valueToRecalculate * unitsFromSpoon[1], 2)} mililiter(s);" +
+                            $" {Math.Round(valueToRecalculate * unitsFromSpoon[2], 2)} glass(es);" +
+                            $" {Math.Round(valueToRecalculate * unitsFromSpoon[3], 2)} teaspoon(s)");
+                        break;
+                    case 5:
+                        List<double> unitsFromTeaspoon = product["teaspoon"];
+                        Console.WriteLine($"{valueToRecalculate} teaspoon(s) = {Math.Round(valueToRecalculate * unitsFromTeaspoon[0], 2)} gram(s);" +
+                            $" {Math.Round(valueToRecalculate * unitsFromTeaspoon[1], 2)} mililiter(s);" +
+                            $" {Math.Round(valueToRecalculate * unitsFromTeaspoon[2], 2)} glass(es);" +
+                            $" {Math.Round(valueToRecalculate * unitsFromTeaspoon[3], 2)} spoon(s)");
+                        break;
+                }
+            }
+            else
+            {
+                Console.WriteLine("\nYou have chosen a wrong unit.");
             }
         }
     }
