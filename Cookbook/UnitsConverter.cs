@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Cookbook
+﻿namespace Cookbook
 {
     public class UnitsConverter
     {
@@ -43,7 +36,6 @@ namespace Cookbook
                 case '6':
                     return productsForConverting.GetDictionary(5);
                 default:
-                    Console.WriteLine("There is no product with that index on list.");
                     return new Dictionary<string, List<double>>();
             }
         }
@@ -76,7 +68,7 @@ namespace Cookbook
                     case 1:
                         List<double> unitsFromG = product["g"];
                         Console.WriteLine($"{valueToRecalculate} gram(s) = {Math.Round(valueToRecalculate * unitsFromG[0], 2)} mililiter(s);" +
-                            $" {Math.Round(valueToRecalculate * unitsFromG[1]),2} glass(es); " +
+                            $" {Math.Round(valueToRecalculate * unitsFromG[1],2)} glass(es); " +
                             $" {Math.Round(valueToRecalculate * unitsFromG[2], 2)} spoon(s); " +
                             $" {Math.Round(valueToRecalculate * unitsFromG[3], 2)} teaspoon(s)");
                         break;

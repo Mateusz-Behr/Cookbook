@@ -41,9 +41,17 @@ namespace Cookbook
                     case '3':
                         var showProducts = unitsConverter.ShowProducts(actionService);
                         var chosenProduct = unitsConverter.ChosenProduct(showProducts.KeyChar);
-                        var unitToCalculate = unitsConverter.UnitToCalculate(actionService);
-                        unitsConverter.RecalculateUnits(unitToCalculate.KeyChar, chosenProduct);
-                        break;
+                        if (chosenProduct.Count > 0)
+                        {
+                            var unitToCalculate = unitsConverter.UnitToCalculate(actionService);
+                            unitsConverter.RecalculateUnits(unitToCalculate.KeyChar, chosenProduct);
+                            break;
+                        }
+                        else
+                        {
+                            Console.WriteLine("There is no product with that index on list.");
+                            break;
+                        }
                     case '4':
                         var removeId = recipeService.RemoveRecipeView();
                         recipeService.RemoveRecipe(removeId);
