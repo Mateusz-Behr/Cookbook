@@ -43,9 +43,23 @@ namespace Cookbook.App.Common
             return entity.Id;
         }
 
-        public void GetFreeId()
+        public int GetFreeId(T item)
         {
-            // ?
+            return item.Id;
         }
+
+        //public void GetFreeId()
+        //{
+        //    if (Items.freeIds.Count > 0)
+        //    {
+        //        item.Id = Recipe.freeIds[0];
+        //        Recipe.freeIds.RemoveAt(0);
+        //    }
+        //    else
+        //    {
+        //        recipe.Id = Recipe.nextId;
+        //        Recipe.nextId++;
+        //    }
+        //}
     }
 }

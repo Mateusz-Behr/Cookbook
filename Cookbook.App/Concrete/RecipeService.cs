@@ -14,17 +14,19 @@ namespace Cookbook.App.Concrete;
 public class RecipeService : BaseService<Recipe>
 {
 
-    public void GetFreeId(Recipe recipe)
+    private static int nextId = 1;
+    private static List<int> freeIds = new List<int>();
+    public static new void GetFreeId()
     {
-        if (Recipe.freeIds.Count > 0)
+        if (freeIds.Count > 0)
         {
-            recipe.Id = Recipe.freeIds[0];
-            Recipe.freeIds.RemoveAt(0);
+            recipe.Id = freeIds[0];
+            freeIds.RemoveAt(0);
         }
         else
         {
-            recipe.Id = Recipe.nextId;
-            Recipe.nextId++;
+            recipe.Id = nextId;
+            nextId++;
         }
     }
 }
