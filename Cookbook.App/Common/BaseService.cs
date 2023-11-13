@@ -4,6 +4,7 @@ using Cookbook.Domain.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -23,7 +24,7 @@ namespace Cookbook.App.Common
             return item.Id;
         }
 
-        public List<T> GellAllItems()
+        public List<T> GetAllItems()
         {
             return Items;
         }
@@ -43,23 +44,24 @@ namespace Cookbook.App.Common
             return entity.Id;
         }
 
-        public int GetFreeId(T item)
+        public int GetFreeId()
         {
-            return item.Id;
+            int freeId;
+            if (Items.Any())
+            {
+                freeId = Items.OrderBy(p => p.Id).LastOrDefault().Id;
+            }
+            else
+            {
+                freeId = 1;
+            }
+            return freeId;
         }
-
-        //public void GetFreeId()
-        //{
-        //    if (Items.freeIds.Count > 0)
-        //    {
-        //        item.Id = Recipe.freeIds[0];
-        //        Recipe.freeIds.RemoveAt(0);
-        //    }
-        //    else
-        //    {
-        //        recipe.Id = Recipe.nextId;
-        //        Recipe.nextId++;
-        //    }
-        //}
+        
+        public T GetItemById(int id)
+        {
+            var entity = Items.FirstOrDefault(p =>p.Id == id);
+            return entity;
+        }
     }
 }

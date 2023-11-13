@@ -1,8 +1,20 @@
-﻿namespace Cookbook
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Xml.Linq;
+using Cookbook.App.Common;
+using Cookbook.Domain.Entity;
+
+namespace Cookbook.App.Concrete
 {
-    public class UnitsConverter
+    public class ProductService : BaseService<Product>
     {
-        ProductsForConverting productsForConverting = new ProductsForConverting();
+        public ProductService()
+        {
+            Initialize();
+        }
 
         public ConsoleKeyInfo ShowProducts(MenuActionService actionService)
         {
@@ -19,22 +31,23 @@
 
         }
 
+
         public Dictionary<string, List<double>> ChosenProduct(int chosenProduct)
         {
             switch (chosenProduct)
             {
-                case '1':
-                    return productsForConverting.GetDictionary(0);
-                case '2':
-                    return productsForConverting.GetDictionary(1);
-                case '3':
-                    return productsForConverting.GetDictionary(2);
-                case '4':
-                    return productsForConverting.GetDictionary(3);
-                case '5':
-                    return productsForConverting.GetDictionary(4);
-                case '6':
-                    return productsForConverting.GetDictionary(5);
+                case 1:
+                    return Items[0].ListOfUnits;
+                case 2:
+                    return Items[1].ListOfUnits;
+                case 3:
+                    return Items[2].ListOfUnits;
+                case 4:
+                    return Items[3].ListOfUnits;
+                case 5:
+                    return Items[4].ListOfUnits;
+                case 6:
+                    return Items[5].ListOfUnits;
                 default:
                     return new Dictionary<string, List<double>>();
             }
@@ -55,7 +68,7 @@
         }
 
         public void RecalculateUnits(char chosenUnit, Dictionary<string, List<double>> product)
-        { 
+        {
 
             int chosenUnitToCalculate = Convert.ToInt32(chosenUnit.ToString());
 
@@ -68,7 +81,7 @@
                     case 1:
                         List<double> unitsFromG = product["g"];
                         Console.WriteLine($"{valueToRecalculate} gram(s) = {Math.Round(valueToRecalculate * unitsFromG[0], 2)} mililiter(s);" +
-                            $" {Math.Round(valueToRecalculate * unitsFromG[1],2)} glass(es); " +
+                            $" {Math.Round(valueToRecalculate * unitsFromG[1], 2)} glass(es); " +
                             $" {Math.Round(valueToRecalculate * unitsFromG[2], 2)} spoon(s); " +
                             $" {Math.Round(valueToRecalculate * unitsFromG[3], 2)} teaspoon(s)");
                         break;
@@ -107,5 +120,69 @@
                 Console.WriteLine("\nYou have chosen a wrong unit.");
             }
         }
+
+        private void Initialize()
+        {
+            AddItem(new Product("Water", waterUnits));
+            AddItem(new Product("Sugar", sugarUnits));
+            AddItem(new Product("Butter", butterUnits));
+            AddItem(new Product("WheatFlour", wheatFlourUnits));
+            AddItem(new Product("Oil", oilUnits));
+            AddItem(new Product("Cream18", cream18Units));
+        }
+
+        private Dictionary<string, List<double>> waterUnits = new Dictionary<string, List<double>>
+            {
+                { "g", new List<double> { 1, 0.004, 0.067, 0.2 } },
+                { "ml", new List<double> { 1, 0.004, 0.067, 0.2 } },
+                { "glass", new List<double> { 250, 250, 16.67, 50 } },
+                { "spoon", new List<double> { 15, 15, 0.06, 3 } },
+                { "teaspoon", new List<double> { 5, 5, 0.02, 0.33 } },
+            };
+
+        private Dictionary<string, List<double>> sugarUnits = new Dictionary<string, List<double>>
+            {
+                { "g", new List<double> { 1.136, 0.005, 0.076, 0.227 } },
+                { "ml", new List<double> { 0.88, 0.004, 0.067, 0.2 } },
+                { "glass", new List<double> { 220, 250, 16.67, 50 } },
+                { "spoon", new List<double> { 13.2, 15, 0.06, 3 } },
+                { "teaspoon", new List<double> { 4.4, 5, 0.02, 0.33 } },
+            };
+
+        private Dictionary<string, List<double>> butterUnits = new Dictionary<string, List<double>>
+            {
+                { "g", new List<double> { 1.042, 0.004, 0.069, 0.208 } },
+                { "ml", new List<double> { 0.96, 0.004, 0.067, 0.2 } },
+                { "glass", new List<double> { 240, 250, 16.67, 50 } },
+                { "spoon", new List<double> { 14.4, 15, 0.06, 3 } },
+                { "teaspoon", new List<double> { 4.8, 5, 0.02, 0.33 } },
+            };
+
+        private Dictionary<string, List<double>> wheatFlourUnits = new Dictionary<string, List<double>>
+            {
+                { "g", new List<double> { 1.563, 0.006, 0.104, 0.313 } },
+                { "ml", new List<double> { 0.64, 0.004, 0.067, 0.2 } },
+                { "glass", new List<double> { 160, 250, 16.67, 50 } },
+                { "spoon", new List<double> { 9.6, 15, 0.06, 3 } },
+                { "teaspoon", new List<double> { 3.2, 5, 0.02, 0.33 } },
+            };
+
+        private Dictionary<string, List<double>> oilUnits = new Dictionary<string, List<double>>
+            {
+                { "g", new List<double> { 1.055, 0.004, 0.064, 0.192 } },
+                { "ml", new List<double> { 1.04, 0.004, 0.067, 0.2 } },
+                { "glass", new List<double> { 260, 250, 16.67, 50 } },
+                { "spoon", new List<double> { 15.6, 15, 0.06, 3 } },
+                { "teaspoon", new List<double> { 5.2, 5, 0.02, 0.33 } },
+            };
+
+        private Dictionary<string, List<double>> cream18Units = new Dictionary<string, List<double>>
+            {
+                { "g", new List<double> { 0.962, 0.004, 0.07, 0.211 } },
+                { "ml", new List<double> { 0.948, 0.004, 0.067, 0.2 } },
+                { "glass", new List<double> { 237, 250, 16.67, 50 } },
+                { "spoon", new List<double> { 14.22, 15, 0.06, 3 } },
+                { "teaspoon", new List<double> { 4.74, 5, 0.02, 0.33 } },
+            };
     }
 }

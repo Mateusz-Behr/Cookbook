@@ -9,10 +9,10 @@ namespace Cookbook.App.Abstract
     public interface IService<T>
     {
         public List<T> Items { get; set; }
-        List<T> GellAllItems();
+        List<T> GetAllItems();
         int AddItem(T item);
         int UpdateItem(T item);
         void RemoveItem(T item);
-        int GetFreeId(T item);
+        int GetFreeId();
     }
 }

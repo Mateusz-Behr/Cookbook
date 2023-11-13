@@ -4,6 +4,7 @@ using Cookbook.Domain.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,14 +14,16 @@ namespace Cookbook.App.Managers
     {
         private readonly MenuActionService _actionService;
         private IService<Recipe> _recipeService;
+        private readonly RecipeService _service;
+
         public RecipeManager(MenuActionService actionService, IService<Recipe> recipeService)
         {
             _recipeService = recipeService;
             _actionService = actionService;
         }
-        public int AddNewRecipe()
+        public void AddNewRecipe()
         {
-            var addNewRecipeMenu = _actionService.GetMenuActionsByMenuName("AddNewRecipeMenu");
+            var addNewRecipeMenu = _actionService.GetMenuActionsByMenuName("RecipeMenu");
             Console.WriteLine("\nWhat type of meal you want to add?");
             for (int i = 0; i < addNewRecipeMenu.Count; i++)
             {
@@ -30,23 +33,62 @@ namespace Cookbook.App.Managers
             var operation = Console.ReadKey();
             Int32.TryParse(operation.KeyChar.ToString(), out int mealTypeNumber);
 
-            Console.WriteLine("\nPlease enter a recipe name: ");
-            var name = Console.ReadLine();
+            if (mealTypeNumber >= 1 && mealTypeNumber <= 4)
+            {
+                Console.WriteLine("\nPlease enter a recipe name: ");
+                var name = Console.ReadLine();
 
-            Console.WriteLine("\nPlease enter ingredients (comma-separated)");
-            string ingredientsInput = Console.ReadLine();
-            List<string> ingredients = new List<string>(ingredientsInput.ToLower().Split(", "));
+                Console.WriteLine("\nPlease enter ingredients (comma-separated)");
+                string ingredientsInput = Console.ReadLine();
+                List<string> ingredients = new List<string>(ingredientsInput.ToLower().Split(", "));
 
-            Console.WriteLine("\nPlease enter instructions: ");
-            string instructions = Console.ReadLine();
+                Console.WriteLine("\nPlease enter instructions: ");
+                string instructions = Console.ReadLine();
 
-            Console.WriteLine("\nPlease enter the cooking time in minutes: ");
-            Int32.TryParse(Console.ReadLine(), out int preparationTime);
+                Console.WriteLine("\nPlease enter the cooking time in minutes: ");
+                Int32.TryParse(Console.ReadLine(), out int preparationTime);
 
-            var id = _recipeService.GetFreeId(); //?
+                var id = _recipeService.GetFreeId(); //?
 
-            Recipe recipe = new Recipe(id, name, mealTypeNumber, ingredients, instructions, preparationTime);
-            return recipe.Id;
+                Recipe recipe = new Recipe(id, name, mealTypeNumber, ingredients, instructions, preparationTime);
+                _recipeService.AddItem(recipe);
+                Console.WriteLine("\nRecipe added successfully!");
+
+            }
+            else
+            {
+                Console.WriteLine("\nWrong meal type.");
+
+            }
+        }
+        public void RemoveRecipeView()
+        {
+            Console.WriteLine("\nPlease enter Id for recipe you want to remove: ");
+            Int32.TryParse(Console.ReadKey().KeyChar.ToString(), out int idToRemove);
+
+            _service.RemoveRecipe(idToRemove); //?
+            
+        }
+
+        public int ShowRecipesView()
+        {
+            var showRecipesByFilterMenu = _actionService.GetMenuActionsByMenuName("ShowRecipesByFilterMenu");
+
+            Console.WriteLine("\nHow would you like to view the recipes?");
+            for (int i = 0; i < showRecipesByFilterMenu.Count; i++)
+            {
+                Console.WriteLine($"{showRecipesByFilterMenu[i].Id}. {showRecipesByFilterMenu[i].Name}");
+            }
+
+            var operation = Console.ReadKey();
+            Int32.TryParse(operation.KeyChar.ToString(), out int filter);
+            Console.WriteLine();
+
+            return filter;
+
+
         }
     }
 }
+
+

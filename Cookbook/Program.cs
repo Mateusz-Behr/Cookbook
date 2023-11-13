@@ -16,8 +16,7 @@ namespace Cookbook
             MenuActionService actionService = new MenuActionService();
             RecipeService recipeService = new RecipeService();
             RecipeManager recipeManager = new RecipeManager(actionService, recipeService);
-            
-            UnitsConverter unitsConverter = new UnitsConverter();
+            ProductService productService = new ProductService();
 
             Console.WriteLine("Welcome to Cookbook App.");
             while (true)
@@ -35,30 +34,29 @@ namespace Cookbook
                 switch (operation.KeyChar)
                 {
                     case '1':
-                        //var showRecipe = recipeService.ShowRecipesByFilterView(actionService);
-                        //var filteredRecipes = recipeService.FilterRecipes(showRecipe.KeyChar);
-                        //recipeService.DisplayRecipes(filteredRecipes);
+                        var filter = recipeManager.ShowRecipesView();
+                        var filtredRecipes = recipeService.FilterRecipes(filter);
+                        recipeService.DisplayRecipes(filtredRecipes);
                         break;
                     case '2':
-                        var newId = recipeManager.AddNewRecipe();
+                        recipeManager.AddNewRecipe();
                         break;
                     case '3':
-                        //var showProducts = unitsConverter.ShowProducts(actionService);
-                        //var chosenProduct = unitsConverter.ChosenProduct(showProducts.KeyChar);
-                        //if (chosenProduct.Count > 0)
-                        //{
-                        //    var unitToCalculate = unitsConverter.UnitToCalculate(actionService);
-                        //    unitsConverter.RecalculateUnits(unitToCalculate.KeyChar, chosenProduct);
-                        //    break;
-                        //}
-                        //else
-                        //{
-                        //    Console.WriteLine("There is no product with that index on list.");
-                        //    break;
-                        //}
+                        var showProducts = productService.ShowProducts(actionService);
+                        var chosenProduct = productService.ChosenProduct(showProducts.KeyChar);
+                        if (chosenProduct.Count > 0)
+                        {
+                            var unitToCalculate = productService.UnitToCalculate(actionService);
+                            productService.RecalculateUnits(unitToCalculate.KeyChar, chosenProduct);
+                            break;
+                        }
+                        else
+                        {
+                            Console.WriteLine("There is no product with that index on list.");
+                            break;
+                        }
                     case '4':
-                        //var removeId = recipeService.RemoveRecipeView();
-                        //recipeService.RemoveRecipe(removeId);
+                        recipeManager.RemoveRecipeView();
                         break;
                     case '9':
                         Console.WriteLine("\nThank you for using the Cookbook App. See you soon!");
