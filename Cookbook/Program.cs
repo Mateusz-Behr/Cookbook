@@ -15,7 +15,8 @@ namespace Cookbook
         {
             MenuActionService actionService = new MenuActionService();
             RecipeService recipeService = new RecipeService();
-            RecipeManager recipeManager = new RecipeManager(actionService, recipeService);
+            IService<Recipe> service = ;//??;
+            RecipeManager recipeManager = new RecipeManager(actionService, recipeService, service); //??
             ProductService productService = new ProductService();
 
             Console.WriteLine("Welcome to Cookbook App.");
