@@ -20,7 +20,7 @@ namespace Cookbook.App.Concrete
         private static int nextId = 1;
         private static List<int> freeIds = new List<int>();
 
-        public static new int GetFreeId()
+        public int GetFreeId()
         {
             int searchedId;
             if (freeIds.Count > 0)
@@ -101,19 +101,19 @@ namespace Cookbook.App.Concrete
             }
         }
 
-        public void RemoveRecipe(int idToRemove)
+        public void RemoveItem(int idToRemove)
         {
-            List<Recipe> recipes = GetAllItems();
-            foreach (var recipe in recipes)
+            foreach (var item in Items)
             {
-                if (recipe.Id == idToRemove)
+                if (item.Id == idToRemove)
                 {
-                    Recipe recipeToRemove = recipe;
-                    if (UserActionManager.ConfirmSelection($"remove {recipeToRemove.Name} recipe?"))
+                    
+                    if (UserActionManager.ConfirmSelection($"remove {item.Name} recipe?"))
                     {
-                        Console.WriteLine($"\n{recipeToRemove.Name} has been removed from Cookbook successfully");
-                        recipes.Remove(recipeToRemove);
-                        freeIds.Add(recipeToRemove.Id);
+                        Console.WriteLine($"\n{item.Name} has been removed from Cookbook successfully");
+                        Items.Remove(item);
+                        freeIds.Add(item.Id);
+                        break;
                     }
                     else
                     {

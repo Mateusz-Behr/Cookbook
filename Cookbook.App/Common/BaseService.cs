@@ -43,20 +43,6 @@ namespace Cookbook.App.Common
             }
             return entity.Id;
         }
-
-        public int GetFreeId()
-        {
-            int freeId;
-            if (Items.Any())
-            {
-                freeId = Items.OrderBy(p => p.Id).LastOrDefault().Id;
-            }
-            else
-            {
-                freeId = 1;
-            }
-            return freeId;
-        }
         
         public T GetItemById(int id)
         {

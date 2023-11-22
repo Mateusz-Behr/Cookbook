@@ -13,13 +13,11 @@ namespace Cookbook.App.Managers
     public class RecipeManager
     {
         private readonly MenuActionService _actionService;
-        private readonly IService<Recipe> _service;
         private readonly RecipeService _recipeService;
 
-        public RecipeManager(MenuActionService actionService, IService<Recipe> service, RecipeService recipeService)
+        public RecipeManager(MenuActionService actionService, RecipeService recipeService)
         {
             _recipeService = recipeService;
-            _service = service;
             _actionService = actionService;
         }
 
@@ -50,7 +48,7 @@ namespace Cookbook.App.Managers
                 Console.WriteLine("\nPlease enter the cooking time in minutes: ");
                 Int32.TryParse(Console.ReadLine(), out int preparationTime);
 
-                var id = _service.GetFreeId(); //?
+                var id = _recipeService.GetFreeId();
 
                 Recipe recipe = new Recipe(id, name, mealTypeNumber, ingredients, instructions, preparationTime);
                 _recipeService.AddItem(recipe);
@@ -66,9 +64,9 @@ namespace Cookbook.App.Managers
         public void RemoveRecipeView()
         {
             Console.WriteLine("\nPlease enter Id for recipe you want to remove: ");
-            Int32.TryParse(Console.ReadKey().KeyChar.ToString(), out int idToRemove);
+            Int32.TryParse(Console.ReadLine().ToString(), out int idToRemove);
 
-            _recipeService.RemoveRecipe(idToRemove); //?
+            _recipeService.RemoveItem(idToRemove);
             
         }
 
