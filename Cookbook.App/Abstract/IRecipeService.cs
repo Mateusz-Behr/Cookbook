@@ -9,8 +9,6 @@ namespace Cookbook.App.Abstract
 {
     public interface IRecipeService : IService<Recipe>
     {
-        int GetFreeId();
-        List<Recipe> FilterRecipes(int filter);
         void DisplayRecipes(List<Recipe> recipes);
     }
 }

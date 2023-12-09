@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Cookbook.App.Concrete;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Cookbook.App.Managers
 {
-    public static class UserActionManager
+    public class UserActionManager
     {
         public static bool ConfirmSelection(string selectionName)
         {
@@ -21,5 +22,25 @@ namespace Cookbook.App.Managers
             if (key == 'y') return true;
             else return false;
         }
+
+        public ConsoleKeyInfo ShowMenu(string menuName, string message, MenuActionService? actionService = null)
+        {
+            actionService ??= new MenuActionService();
+
+            var showProductsMenu = actionService.GetMenuActionsByMenuName(menuName);
+            Console.WriteLine($"\n{message}");
+
+            foreach (var menuItem in showProductsMenu)
+            {
+                Console.WriteLine($"{menuItem.Id}. {menuItem.Name}");
+            }
+
+            var chosenMenuItem = Console.ReadKey();
+            Console.WriteLine();
+            return chosenMenuItem;
+        }
+
     }
+
+    
 }

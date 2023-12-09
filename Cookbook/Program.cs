@@ -13,41 +13,34 @@ namespace Cookbook
         public const string FILE_NAME = "F:\\Cookbook App\\Recipes.xlsx";
         static void Main(string[] args)
         {
-            MenuActionService actionService = new MenuActionService();
+
             RecipeService recipeService = new RecipeService();
-            RecipeManager recipeManager = new RecipeManager(actionService, recipeService);
+            UserActionManager userManager = new UserActionManager();
+            RecipeManager recipeManager = new RecipeManager(userManager, recipeService);
             ProductService productService = new ProductService();
+            ProductManager productManager = new ProductManager();
+            
 
             Console.WriteLine("Welcome to Cookbook App.");
             while (true)
             {
+                ConsoleKeyInfo operation = userManager.ShowMenu("Main", "What would you like to do?");
 
-                Console.WriteLine("\nWhat would you like to do?");
-                var mainMenu = actionService.GetMenuActionsByMenuName("Main");
-                for (int i = 0; i < mainMenu.Count; i++)
-                {
-                    Console.WriteLine($"{mainMenu[i].Id}. {mainMenu[i].Name}");
-                }
-
-                var operation = Console.ReadKey();
-                Console.WriteLine();
                 switch (operation.KeyChar)
                 {
                     case '1':
-                        var filter = recipeManager.ShowRecipesView();
-                        var filtredRecipes = recipeService.FilterRecipes(filter);
-                        recipeService.DisplayRecipes(filtredRecipes);
+                        recipeManager.FilterRecipes();
                         break;
                     case '2':
                         recipeManager.AddNewRecipe();
                         break;
                     case '3':
-                        var showProducts = productService.ShowProducts(actionService);
+                        var showProducts = productManager.ShowProducts();
                         var chosenProduct = productService.ChosenProduct(showProducts.KeyChar);
                         if (chosenProduct.Count > 0)
                         {
-                            var unitToCalculate = productService.UnitToCalculate(actionService);
-                            productService.RecalculateUnits(unitToCalculate.KeyChar, chosenProduct);
+                            var unitToCalculate = productManager.ChooseUnitToCalculate();
+                            productManager.ShowResultAfterCalculate(chosenProduct, unitToCalculate.KeyChar);
                             break;
                         }
                         else

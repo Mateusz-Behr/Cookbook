@@ -46,7 +46,8 @@ namespace Cookbook.App.Concrete
             AddItem(new MenuAction(2, "According to a meal type", "ShowRecipesByFilterMenu"));
             AddItem(new MenuAction(3, "According to a specific ingredient", "ShowRecipesByFilterMenu"));
             AddItem(new MenuAction(4, "According to preparation time", "ShowRecipesByFilterMenu"));
-            AddItem(new MenuAction(5, "Specific meal by a name", "ShowRecipesByFilterMenu"));
+            AddItem(new MenuAction(5, "In the order of addition", "ShowRecipesByFilterMenu"));
+            AddItem(new MenuAction(6, "Specific meal by a name", "ShowRecipesByFilterMenu"));
 
             AddItem(new MenuAction(1, "Water", "ShowProductsMenu"));
             AddItem(new MenuAction(2, "Sugar", "ShowProductsMenu"));

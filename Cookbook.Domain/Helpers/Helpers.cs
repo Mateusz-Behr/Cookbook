@@ -13,4 +13,13 @@ namespace Cookbook.Domain.Helpers
         Desser,
         Dinner
     }
+
+    public enum UnitType
+    {
+        Grams = 1,
+        Milliliters,
+        Glasses,
+        Spoons,
+        Teaspoons
+    }
 }

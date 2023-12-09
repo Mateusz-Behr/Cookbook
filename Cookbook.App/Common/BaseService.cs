@@ -3,6 +3,7 @@ using Cookbook.Domain.Common;
 using Cookbook.Domain.Entity;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Text;
@@ -29,7 +30,8 @@ namespace Cookbook.App.Common
             return Items;
         }
 
-        public void RemoveItem(T item)
+
+        public virtual void RemoveItem(T item)
         {
             Items.Remove(item);
         }
@@ -49,5 +51,11 @@ namespace Cookbook.App.Common
             var entity = Items.FirstOrDefault(p =>p.Id == id);
             return entity;
         }
+
+        public virtual int GetFreeId()
+        {
+            return 1;
+        }
+
     }
 }
