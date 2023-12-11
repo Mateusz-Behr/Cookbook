@@ -51,6 +51,9 @@ namespace Cookbook
                     case '4':
                         recipeManager.RemoveRecipeView();
                         break;
+                    case '5':
+                        recipeManager.UpdateRecipeView();
+                        break;
                     case '9':
                         Console.WriteLine("\nThank you for using the Cookbook App. See you soon!");
                         Environment.Exit(0);

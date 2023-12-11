@@ -45,7 +45,7 @@ namespace Cookbook.App.Managers
 
                 int id = _recipeService.GetFreeId();
 
-                Recipe recipe = new (id, name, mealTypeNumber, ingredients, instructions, preparationTime);
+                Recipe recipe = new(id, name, mealTypeNumber, ingredients, instructions, preparationTime);
                 _recipeService.AddItem(recipe);
                 Console.WriteLine("\nRecipe added successfully!");
 
@@ -56,6 +56,7 @@ namespace Cookbook.App.Managers
 
             }
         }
+
         public void RemoveRecipeView()
         {
             Console.WriteLine("\nPlease enter Id for recipe you want to remove: ");
@@ -136,11 +137,8 @@ namespace Cookbook.App.Managers
 
         public void DisplayRecipes(List<Recipe> recipes)
         {
-
             if (recipes.Count > 0)
             {
-
-
                 Console.WriteLine("\nRecipes you are looking for: ");
                 foreach (Recipe recipe in recipes)
                 {
@@ -148,7 +146,7 @@ namespace Cookbook.App.Managers
                     MealType mealType = (MealType)recipe.MealTypeNumber;
 
                     Console.WriteLine($"\nName: {recipe.Name}\nId: {recipe.Id}");
-                    Console.WriteLine("Instructions: " + string.Join(", ", recipe.Ingredients));
+                    Console.WriteLine("Igredients: " + string.Join(", ", recipe.Ingredients));
                     Console.WriteLine($"Instructions: {recipe.Instructions}");
                     Console.WriteLine($"MealType: {mealType}\nPreparation time: {recipe.PreparationTime}");
                 }
@@ -159,6 +157,106 @@ namespace Cookbook.App.Managers
             }
         }
 
+        private static void DisplaySingleRecipe(Recipe recipe)
+        {
+            Console.WriteLine($"\nName: {recipe.Name}");
+            Console.WriteLine($"Meal type: {(MealType)recipe.MealTypeNumber}");
+            Console.WriteLine("Igredients: " + string.Join(", ", recipe.Ingredients));
+            Console.WriteLine($"Instructions: {recipe.Instructions}");
+            Console.WriteLine($"Preparation time: {recipe.PreparationTime}");
+        }
+
+        public void UpdateRecipeView()
+        {
+            Console.WriteLine("\r\nEnter the name or ID of the recipe you want to update.");
+            string userInput = Console.ReadLine();
+
+            if (int.TryParse(userInput, out int recipeId))
+            {
+                Recipe recipeById = _recipeService.Items.FirstOrDefault(r => r.Id == recipeId);
+
+                if (recipeById != null)
+                {
+                    UpdatingConfirmationView(recipeById);
+                }
+                else
+                {
+                    Console.WriteLine("The recipe with the given ID does not exist.");
+                }
+            }
+            else
+            {
+                Recipe recipeByName = _recipeService.Items.FirstOrDefault(r => r.Name.Equals(userInput, StringComparison.OrdinalIgnoreCase));
+
+                if (recipeByName != null)
+                {
+                    UpdatingConfirmationView(recipeByName);
+                }
+                else
+                {
+                    Console.WriteLine("The recipe with the given name does not exits.");
+                }
+            }
+        }
+
+        public void UpdatingConfirmationView(Recipe recipe)
+        {
+            if (UserActionManager.ConfirmSelection($"update {recipe.Name} recipe?"))
+            {
+                DisplaySingleRecipe(recipe);
+
+                ConsoleKeyInfo chosenPropertyKeyChar = _userManager.ShowMenu("UpdatingMenu", "\nWhat do you want to update?");
+                int chosenProperty = (int)char.GetNumericValue(chosenPropertyKeyChar.KeyChar);
+
+                if (chosenProperty >= 1 && chosenProperty <= 5)
+                {
+                    UpdateRecipe(chosenProperty, recipe);
+                }
+                else
+                {
+                    Console.WriteLine("Wrong choice");
+                }
+                
+            }
+            else
+            {
+                Console.WriteLine("\nRecipe updating has been cancelled.");
+            }
+        }
+
+        public void UpdateRecipe(int chosenProperty, Recipe recipe)
+        {
+            switch (chosenProperty)
+            {
+                case 1:
+                    Console.WriteLine("\nEnter a new name");
+                    string newName = Console.ReadLine();
+                    recipe.Name = newName;
+                    break;
+                case 2:
+                    ConsoleKeyInfo chosenMealTypeKeyChar = _userManager.ShowMenu("RecipeMenu", "\nWhat is the correct type of meal?");
+                    int newMealTypeNumber = (int)char.GetNumericValue(chosenMealTypeKeyChar.KeyChar);
+                    recipe.MealTypeNumber = newMealTypeNumber;
+                    break;
+                case 3:
+                    Console.WriteLine("\nPlease enter new ingredients (comma-separated)");
+                    List<string> newIngredients = new List<string>(Console.ReadLine().ToLower().Split(", "));
+                    recipe.Ingredients = newIngredients;
+                    break;
+                case 4:
+                    Console.WriteLine("\nPlease enter new instructions: ");
+                    string newInstructions = Console.ReadLine();
+                    recipe.Instructions = newInstructions;
+                    break;
+                case 5:
+                    Console.WriteLine("\nPlease enter enter approximate preparation time.");
+                    Int32.TryParse(Console.ReadLine(), out int newPreparationTime);
+                    recipe.PreparationTime = newPreparationTime;
+                    break;
+            }
+
+            Console.WriteLine("The update was successful");
+        }
     }
 }
 

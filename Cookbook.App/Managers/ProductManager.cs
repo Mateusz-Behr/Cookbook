@@ -33,9 +33,9 @@ namespace Cookbook.App.Managers
             return chosenUnit;
         }
 
-        public void ShowResultAfterCalculate(Dictionary<string, List<double>> product, char chosenUnitCharKey)
+        public void ShowResultAfterCalculate(Dictionary<string, List<double>> product, char chosenUnitKeyChar)
         {
-            int chosenUnitNumber = (int)char.GetNumericValue(chosenUnitCharKey);
+            int chosenUnitNumber = (int)char.GetNumericValue(chosenUnitKeyChar);
 
             if (chosenUnitNumber >= 1 && chosenUnitNumber < productService.Items[0].ListOfUnits.Count)
             {

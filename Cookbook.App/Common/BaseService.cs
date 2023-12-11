@@ -36,14 +36,14 @@ namespace Cookbook.App.Common
             Items.Remove(item);
         }
 
-        public int UpdateItem(T item)
+        public void UpdateItem(T item)
         {
             var entity = Items.FirstOrDefault(p => p.Id == item.Id);
             if (entity != null)
             {
                 entity = item;
             }
-            return entity.Id;
+            
         }
         
         public T GetItemById(int id)

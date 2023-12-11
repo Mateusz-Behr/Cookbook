@@ -35,6 +35,7 @@ namespace Cookbook.App.Concrete
             AddItem(new MenuAction(2, "Add a new recipe", "Main"));
             AddItem(new MenuAction(3, "Convert kitchen units", "Main"));
             AddItem(new MenuAction(4, "Remove recipe", "Main"));
+            AddItem(new MenuAction(5, "Update recipe", "Main"));
             AddItem(new MenuAction(9, "Exit program", "Main"));
 
             AddItem(new MenuAction(1, "Breakfest", "RecipeMenu"));
@@ -61,6 +62,12 @@ namespace Cookbook.App.Concrete
             AddItem(new MenuAction(3, "Glasses", "ShowUnitsMenu"));
             AddItem(new MenuAction(4, "Spoons", "ShowUnitsMenu"));
             AddItem(new MenuAction(5, "Teaspoons", "ShowUnitsMenu"));
+
+            AddItem(new MenuAction(1, "Name", "UpdatingMenu"));
+            AddItem(new MenuAction(2, "Meal Type", "UpdatingMenu"));
+            AddItem(new MenuAction(3, "Ingredients", "UpdatingMenu"));
+            AddItem(new MenuAction(4, "Instructions", "UpdatingMenu"));
+            AddItem(new MenuAction(5, "Preparation time", "UpdatingMenu"));
         }
     }
 }
