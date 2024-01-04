@@ -17,8 +17,8 @@ namespace Cookbook.App.Concrete
     public class RecipeService : BaseService<Recipe>
     {
 
-        public int recipeNextId = 1;
-        public List<int> recipeFreeIds = new List<int>();
+        private int recipeNextId = 1;
+        private List<int> recipeFreeIds = new List<int>();
 
         public override int GetFreeId()
         {

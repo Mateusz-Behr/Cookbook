@@ -15,10 +15,12 @@ namespace Cookbook
         {
 
             RecipeService recipeService = new RecipeService();
-            UserActionManager userManager = new UserActionManager();
-            RecipeManager recipeManager = new RecipeManager(userManager, recipeService);
+            MenuActionService menuActionService = new MenuActionService();
+            UserActionService userService = new UserActionService();
+            UserActionManager userManager = new UserActionManager(menuActionService, userService);
+            RecipeManager recipeManager = new RecipeManager(userManager, recipeService, userService);
             ProductService productService = new ProductService();
-            ProductManager productManager = new ProductManager();
+            ProductManager productManager = new ProductManager(userManager, productService, userService);
             
 
             Console.WriteLine("Welcome to Cookbook App.");
@@ -35,12 +37,12 @@ namespace Cookbook
                         recipeManager.AddNewRecipe();
                         break;
                     case '3':
-                        var showProducts = productManager.ShowProducts();
-                        var chosenProduct = productService.ChosenProduct(showProducts.KeyChar);
+                        var showProducts = productManager.ChooseProductToCalculate();
+                        var chosenProduct = productService.ChosenProduct(showProducts);
                         if (chosenProduct.Count > 0)
                         {
                             var unitToCalculate = productManager.ChooseUnitToCalculate();
-                            productManager.ShowResultAfterCalculate(chosenProduct, unitToCalculate.KeyChar);
+                            productManager.ShowResultAfterCalculate(chosenProduct, unitToCalculate);
                             break;
                         }
                         else
@@ -49,7 +51,7 @@ namespace Cookbook
                             break;
                         }
                     case '4':
-                        recipeManager.RemoveRecipeView();
+                        recipeManager.SelectRecipeToRemove();
                         break;
                     case '5':
                         recipeManager.UpdateRecipeView();

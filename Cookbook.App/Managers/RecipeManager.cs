@@ -16,11 +16,13 @@ namespace Cookbook.App.Managers
 
         private readonly UserActionManager _userManager;
         private readonly RecipeService _recipeService;
+        private readonly UserActionService _userService;
 
-        public RecipeManager(UserActionManager userManager, RecipeService recipeService)
+        public RecipeManager(UserActionManager userManager, RecipeService recipeService, UserActionService userService)
         {
             _recipeService = recipeService;
             _userManager = userManager;
+            _userService = userService;
         }
 
         public void AddNewRecipe()
@@ -34,14 +36,30 @@ namespace Cookbook.App.Managers
                 var name = Console.ReadLine();
 
                 Console.WriteLine("\nPlease enter ingredients (comma-separated)");
-                string ingredientsInput = Console.ReadLine();
+                var ingredientsInput = Console.ReadLine();
                 List<string> ingredients = new List<string>(ingredientsInput.ToLower().Split(", "));
 
-                Console.WriteLine("\nPlease enter instructions: ");
-                string instructions = Console.ReadLine();
+                Console.WriteLine("\nPlease enter instructions (press Enter twice to finish): ");
+                StringBuilder instructionsBuilder = new StringBuilder();
+
+                string line;
+
+                do
+                {
+                    line = Console.ReadLine();
+
+                    if (!string.IsNullOrWhiteSpace(line))
+                    {
+                        instructionsBuilder.Append(line + "\n");
+                    }
+                }
+                while (!string.IsNullOrWhiteSpace(line));
+
+                var instructions = instructionsBuilder.ToString();
 
                 Console.WriteLine("\nPlease enter the cooking time in minutes: ");
-                Int32.TryParse(Console.ReadLine(), out int preparationTime);
+                var inputtedPreparationTime = Console.ReadLine();
+                int preparationTime = _userService.ConvertToInt(inputtedPreparationTime);
 
                 int id = _recipeService.GetFreeId();
 
@@ -57,14 +75,14 @@ namespace Cookbook.App.Managers
             }
         }
 
-        public void RemoveRecipeView()
+        public void SelectRecipeToRemove()
         {
             Console.WriteLine("\nPlease enter Id for recipe you want to remove: ");
             Int32.TryParse(Console.ReadLine().ToString(), out int idToRemove);
 
             Recipe recipe = _recipeService.GetItemById(idToRemove);
 
-            if (recipe.Id == idToRemove)
+            if (_recipeService.Items.Count > 0 && recipe.Id == idToRemove)
             {
                 if (UserActionManager.ConfirmSelection($"remove {recipe.Name} recipe?"))
                 {
@@ -147,7 +165,7 @@ namespace Cookbook.App.Managers
 
                     Console.WriteLine($"\nName: {recipe.Name}\nId: {recipe.Id}");
                     Console.WriteLine("Igredients: " + string.Join(", ", recipe.Ingredients));
-                    Console.WriteLine($"Instructions: {recipe.Instructions}");
+                    Console.WriteLine($"Instructions:\r\n" + recipe.Instructions);
                     Console.WriteLine($"MealType: {mealType}\nPreparation time: {recipe.PreparationTime}");
                 }
             }

@@ -9,47 +9,62 @@ namespace Cookbook.App.Managers
 {
     public class ProductManager
     {
-        public UserActionManager userManager;
-        public ProductService productService;
+        private readonly UserActionManager _userManager;
+        private readonly ProductService _productService;
+        private readonly UserActionService _userService;
 
-        public ProductManager()
+        public ProductManager(UserActionManager userManager, ProductService productService, UserActionService userService)
         {
-            userManager = new UserActionManager();
-            productService = new ProductService();
+            _userManager = userManager;
+            _productService = productService;
+            _userService = userService;
+
         }
 
-        public ConsoleKeyInfo ShowProducts()
+        public int ChooseProductToCalculate()
         {
-            ConsoleKeyInfo chosenProduct = userManager.ShowMenu("ShowProductsMenu", "\nChoose a product to recalculate units for:");
+            int chosenProduct = _userManager.ShowLargeMenu("ShowProductsMenu", "\nChoose a product to recalculate units for:");
 
             return chosenProduct;
 
         }
 
-        public ConsoleKeyInfo ChooseUnitToCalculate()
+        public int ChooseUnitToCalculate()
         {
-            ConsoleKeyInfo chosenUnit = userManager.ShowMenu("ShowUnitsMenu", "\nChoose a unit you want to recalculate:");
+            int chosenUnit = _userManager.ShowLargeMenu("ShowUnitsMenu", "\nChoose a unit you want to recalculate:");
 
             return chosenUnit;
         }
 
-        public void ShowResultAfterCalculate(Dictionary<string, List<double>> product, char chosenUnitKeyChar)
+        public void ShowResultAfterCalculate(Dictionary<string, List<double>> product, int chosenUnit)
         {
-            int chosenUnitNumber = (int)char.GetNumericValue(chosenUnitKeyChar);
 
-            if (chosenUnitNumber >= 1 && chosenUnitNumber < productService.Items[0].ListOfUnits.Count)
+            if (chosenUnit >= 1 && chosenUnit <= _productService.Items[0].ListOfUnits.Count)
             {
                 Console.WriteLine("\nEnter a value:");
-                Double.TryParse(Console.ReadLine(), out double valueToRecalculate);
+                var inputtedValueToRecalculate = Console.ReadLine();
 
-                List<double> results = productService.CalculateUnits(valueToRecalculate, product, chosenUnitNumber);
-                string unitName = productService.GetUnitName(chosenUnitNumber);
+                double valueToRecalculate = _userService.ConvertToDouble(inputtedValueToRecalculate);
 
-                Console.WriteLine($"\n{valueToRecalculate} {unitName} = ");
-                for (int i = 0; i < results.Count; i++)
+                if (valueToRecalculate >= 0)
                 {
-                    Console.WriteLine($"{results[i]} {productService.GetUnitName(i + 1)}");
+                    List<double> results = _productService.CalculateUnits(valueToRecalculate, product, chosenUnit);
+                    string unitName = _productService.GetUnitName(chosenUnit);
+
+                    Console.WriteLine($"\n{valueToRecalculate} {unitName} = \n");
+                    for (int i = 0; i < results.Count; i++)
+                    {
+                        if (unitName != _productService.GetUnitName(i + 1))
+                        {
+                            Console.WriteLine($"{results[i]} {_productService.GetUnitName(i + 1)}");
+                        }
+                    
+                    }
                 }
+                else
+                {
+                    Console.WriteLine("\r\nThe specified value cannot be negative.");
+                }               
             }
             else
             {

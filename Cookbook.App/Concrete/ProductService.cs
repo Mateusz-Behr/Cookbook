@@ -19,8 +19,8 @@ namespace Cookbook.App.Concrete
             Initialize();
         }
 
-        public int productNextId = 1;
-        public List<int> productFreeIds = new List<int>();
+        private int productNextId = 1;
+        private List<int> productFreeIds = new List<int>();
 
         public override int GetFreeId()
         {
@@ -41,9 +41,8 @@ namespace Cookbook.App.Concrete
         }
 
 
-        public Dictionary<string, List<double>> ChosenProduct(char chosenProductCharKey)
+        public Dictionary<string, List<double>> ChosenProduct(int chosenProduct)
         {
-            int chosenProduct = Convert.ToInt32(chosenProductCharKey.ToString());
 
             if (chosenProduct > 0 && chosenProduct <= Items.Count)
             {
@@ -55,7 +54,7 @@ namespace Cookbook.App.Concrete
             }
         }
 
-        public string AccesToUnitsList(int chosenUnitNumber)
+        public string GetAccessToUnitsList(int chosenUnitNumber)
         {
             switch (chosenUnitNumber)
             {
@@ -84,7 +83,7 @@ namespace Cookbook.App.Concrete
                 case UnitType.Grams:
                     return "gram(s)";
                 case UnitType.Milliliters:
-                    return "milililiter(s)";
+                    return "mililiter(s)";
                 case UnitType.Glasses:
                     return "glass(es)";
                 case UnitType.Spoons:
@@ -99,7 +98,7 @@ namespace Cookbook.App.Concrete
 
         public List<double> CalculateUnits(double value, Dictionary<string, List<double>> product, int chosenUnitNumber)
         {
-            string unitName = AccesToUnitsList(chosenUnitNumber);
+            string unitName = GetAccessToUnitsList(chosenUnitNumber);
             List<double> results = new List<double>();
 
             for (int i = 0; i < product[unitName].Count; i++)
