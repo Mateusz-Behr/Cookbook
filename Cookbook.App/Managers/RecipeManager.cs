@@ -189,7 +189,7 @@ namespace Cookbook.App.Managers
 
                 if (recipeById != null)
                 {
-                    UpdatingConfirmationView(recipeById);
+                    ConfirmUpdate(recipeById);
                 }
                 else
                 {
@@ -202,7 +202,7 @@ namespace Cookbook.App.Managers
 
                 if (recipeByName != null)
                 {
-                    UpdatingConfirmationView(recipeByName);
+                    ConfirmUpdate(recipeByName);
                 }
                 else
                 {
@@ -211,7 +211,7 @@ namespace Cookbook.App.Managers
             }
         }
 
-        public void UpdatingConfirmationView(Recipe recipe)
+        public void ConfirmUpdate(Recipe recipe)
         {
             if (UserActionManager.ConfirmSelection($"update {recipe.Name} recipe?"))
             {
@@ -242,7 +242,7 @@ namespace Cookbook.App.Managers
             {
                 case 1:
                     Console.WriteLine("\nEnter a new name");
-                    string newName = Console.ReadLine();
+                    var newName = Console.ReadLine();
                     recipe.Name = newName;
                     break;
                 case 2:
@@ -257,7 +257,17 @@ namespace Cookbook.App.Managers
                     break;
                 case 4:
                     Console.WriteLine("\nPlease enter new instructions: ");
-                    string newInstructions = Console.ReadLine();
+
+                    StringBuilder instructionsBuilder = new StringBuilder();
+
+                    string line;
+
+                    while (!string.IsNullOrWhiteSpace(line = Console.ReadLine()))
+                    {
+                        instructionsBuilder.Append(line + "\n");
+                    }
+
+                    var newInstructions = instructionsBuilder.ToString();
                     recipe.Instructions = newInstructions;
                     break;
                 case 5:

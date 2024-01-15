@@ -13,5 +13,7 @@ namespace Cookbook.App.Abstract
         int AddItem(T item);
         void UpdateItem(T item);
         void RemoveItem(T item);
+        T GetItemById(int id);
+        int GetFreeId();
     }
 }
