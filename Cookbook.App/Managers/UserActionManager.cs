@@ -1,4 +1,5 @@
 ﻿using Cookbook.App.Concrete;
+using Cookbook.Domain.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,13 +11,13 @@ namespace Cookbook.App.Managers
     public class UserActionManager
 
     {
-        public MenuActionService menuActionService;
-        public UserActionService userService;
+        private readonly MenuActionService _menuActionService;
+        private readonly Helpers _helpers;
 
-        public UserActionManager(MenuActionService menuActionService, UserActionService userService)
+        public UserActionManager(MenuActionService menuActionService, Helpers helpers)
         {
-            this.menuActionService = menuActionService;
-            this.userService = userService;
+            _menuActionService = menuActionService;
+            _helpers = helpers;
         }
         public static bool ConfirmSelection(string selectionName)
         {
@@ -35,7 +36,7 @@ namespace Cookbook.App.Managers
         public ConsoleKeyInfo ShowMenu(string menuName, string message)
         {
 
-            var showProductsMenu = menuActionService.GetMenuActionsByMenuName(menuName);
+            var showProductsMenu = _menuActionService.GetMenuActionsByMenuName(menuName);
             Console.WriteLine($"\n{message}");
 
             foreach (var menuItem in showProductsMenu)
@@ -51,7 +52,7 @@ namespace Cookbook.App.Managers
         public int ShowLargeMenu(string menuName, string message)
         {
 
-            var showProductsMenu = menuActionService.GetMenuActionsByMenuName(menuName);
+            var showProductsMenu = _menuActionService.GetMenuActionsByMenuName(menuName);
             Console.WriteLine($"\n{message}");
 
             foreach (var menuItem in showProductsMenu)
@@ -61,7 +62,7 @@ namespace Cookbook.App.Managers
 
             string chosenMenuItemString = Console.ReadLine();
 
-            int chosenMenuItem = userService.ConvertToInt(chosenMenuItemString);
+            int chosenMenuItem = _helpers.ConvertToInt(chosenMenuItemString);
             return chosenMenuItem;
 
         }

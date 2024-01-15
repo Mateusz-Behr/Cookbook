@@ -5,6 +5,7 @@ using Cookbook.Domain.Entity;
 using Cookbook.App.Abstract;
 using Cookbook.App.Concrete;
 using Cookbook.App.Managers;
+using Cookbook.Domain.Helpers;
 
 namespace Cookbook
 {
@@ -16,11 +17,11 @@ namespace Cookbook
 
             RecipeService recipeService = new RecipeService();
             MenuActionService menuActionService = new MenuActionService();
-            UserActionService userService = new UserActionService();
-            UserActionManager userManager = new UserActionManager(menuActionService, userService);
-            RecipeManager recipeManager = new RecipeManager(userManager, recipeService, userService);
+            Helpers helpers = new Helpers();
+            UserActionManager userManager = new UserActionManager(menuActionService, helpers);
+            RecipeManager recipeManager = new RecipeManager(userManager, recipeService, helpers);
             ProductService productService = new ProductService();
-            ProductManager productManager = new ProductManager(userManager, productService, userService);
+            ProductManager productManager = new ProductManager(userManager, productService, helpers, menuActionService);
             
 
             Console.WriteLine("Welcome to Cookbook App.");
@@ -42,7 +43,7 @@ namespace Cookbook
                         if (chosenProduct.Count > 0)
                         {
                             var unitToCalculate = productManager.ChooseUnitToCalculate();
-                            productManager.ShowResultAfterCalculate(chosenProduct, unitToCalculate);
+                            productManager.ShowResultAfterCalculate(showProducts, chosenProduct, unitToCalculate);
                             break;
                         }
                         else

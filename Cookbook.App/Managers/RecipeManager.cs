@@ -16,13 +16,13 @@ namespace Cookbook.App.Managers
 
         private readonly UserActionManager _userManager;
         private readonly RecipeService _recipeService;
-        private readonly UserActionService _userService;
+        private readonly Helpers _helpers;
 
-        public RecipeManager(UserActionManager userManager, RecipeService recipeService, UserActionService userService)
+        public RecipeManager(UserActionManager userManager, RecipeService recipeService, Helpers helpers)
         {
             _recipeService = recipeService;
             _userManager = userManager;
-            _userService = userService;
+            _helpers = helpers;
         }
 
         public void AddNewRecipe()
@@ -44,22 +44,16 @@ namespace Cookbook.App.Managers
 
                 string line;
 
-                do
+                while (!string.IsNullOrWhiteSpace(line = Console.ReadLine()))
                 {
-                    line = Console.ReadLine();
-
-                    if (!string.IsNullOrWhiteSpace(line))
-                    {
-                        instructionsBuilder.Append(line + "\n");
-                    }
+                    instructionsBuilder.Append(line + "\n");
                 }
-                while (!string.IsNullOrWhiteSpace(line));
 
                 var instructions = instructionsBuilder.ToString();
 
                 Console.WriteLine("\nPlease enter the cooking time in minutes: ");
                 var inputtedPreparationTime = Console.ReadLine();
-                int preparationTime = _userService.ConvertToInt(inputtedPreparationTime);
+                int preparationTime = _helpers.ConvertToInt(inputtedPreparationTime);
 
                 int id = _recipeService.GetFreeId();
 
@@ -161,7 +155,7 @@ namespace Cookbook.App.Managers
                 foreach (Recipe recipe in recipes)
                 {
 
-                    MealType mealType = (MealType)recipe.MealTypeNumber;
+                    Helpers.MealType mealType = (Helpers.MealType)recipe.MealTypeNumber;
 
                     Console.WriteLine($"\nName: {recipe.Name}\nId: {recipe.Id}");
                     Console.WriteLine("Igredients: " + string.Join(", ", recipe.Ingredients));
@@ -178,7 +172,7 @@ namespace Cookbook.App.Managers
         private static void DisplaySingleRecipe(Recipe recipe)
         {
             Console.WriteLine($"\nName: {recipe.Name}");
-            Console.WriteLine($"Meal type: {(MealType)recipe.MealTypeNumber}");
+            Console.WriteLine($"Meal type: {(Helpers.MealType)recipe.MealTypeNumber}");
             Console.WriteLine("Igredients: " + string.Join(", ", recipe.Ingredients));
             Console.WriteLine($"Instructions: {recipe.Instructions}");
             Console.WriteLine($"Preparation time: {recipe.PreparationTime}");

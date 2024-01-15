@@ -19,28 +19,6 @@ namespace Cookbook.App.Concrete
             Initialize();
         }
 
-        private int productNextId = 1;
-        private List<int> productFreeIds = new List<int>();
-
-        public override int GetFreeId()
-        {
-            int searchedId;
-
-            if (productFreeIds.Count > 0)
-            {
-                searchedId = productFreeIds[0];
-                productFreeIds.RemoveAt(0);
-                return searchedId;
-            }
-            else
-            {
-                searchedId = productNextId;
-                productNextId++;
-                return searchedId;
-            }
-        }
-
-
         public Dictionary<string, List<double>> ChosenProduct(int chosenProduct)
         {
 
@@ -77,18 +55,18 @@ namespace Cookbook.App.Concrete
         public string GetUnitName(int chosenUnitNumber)
         {
             
-            UnitType unitType = (UnitType)chosenUnitNumber;
+            Helpers.UnitType unitType = (Helpers.UnitType)chosenUnitNumber;
             switch (unitType)
             {
-                case UnitType.Grams:
+                case Helpers.UnitType.Grams:
                     return "gram(s)";
-                case UnitType.Milliliters:
+                case Helpers.UnitType.Milliliters:
                     return "mililiter(s)";
-                case UnitType.Glasses:
+                case Helpers.UnitType.Glasses:
                     return "glass(es)";
-                case UnitType.Spoons:
+                case Helpers.UnitType.Spoons:
                     return "spoon(s)";
-                case UnitType.Teaspoons:
+                case Helpers.UnitType.Teaspoons:
                     return "teaspoon(s)";
                 default:
                     return "unknown";
@@ -110,18 +88,22 @@ namespace Cookbook.App.Concrete
             return results;
         }
 
+        private Product CreateProduct(string name, Dictionary<string, List<double>> units)
+        {
+            return new Product(GetFreeId(), name, units);
+        }
 
         private void Initialize()
         {
-            AddItem(new Product(GetFreeId(), "Water", waterUnits));
-            AddItem(new Product(GetFreeId(), "Sugar", sugarUnits));
-            AddItem(new Product(GetFreeId(), "Butter", butterUnits));
-            AddItem(new Product(GetFreeId(), "WheatFlour", wheatFlourUnits));
-            AddItem(new Product(GetFreeId(), "Oil", oilUnits));
-            AddItem(new Product(GetFreeId(), "Cream18", cream18Units));
+            AddItem(CreateProduct("Water", waterUnits));
+            AddItem(CreateProduct("Sugar", sugarUnits));
+            AddItem(CreateProduct("Butter", butterUnits));
+            AddItem(CreateProduct("WheatFlour", wheatFlourUnits));
+            AddItem(CreateProduct("Oil", oilUnits));
+            AddItem(CreateProduct("Cream18", cream18Units));
         }
 
-        private Dictionary<string, List<double>> waterUnits = new Dictionary<string, List<double>>
+        private readonly Dictionary<string, List<double>> waterUnits = new()
             {
                 { "g", new List<double> { 1, 1, 0.004, 0.067, 0.2 } },
                 { "ml", new List<double> { 1, 1, 0.004, 0.067, 0.2 } },
@@ -130,7 +112,7 @@ namespace Cookbook.App.Concrete
                 { "teaspoon", new List<double> { 5, 5, 0.02, 0.33, 1 } },
             };
 
-        private Dictionary<string, List<double>> sugarUnits = new Dictionary<string, List<double>>
+        private readonly Dictionary<string, List<double>> sugarUnits = new()
             {
                 { "g", new List<double> { 1, 1.136, 0.005, 0.076, 0.227 } },
                 { "ml", new List<double> { 0.88, 1, 0.004, 0.067, 0.2 } },
@@ -139,7 +121,7 @@ namespace Cookbook.App.Concrete
                 { "teaspoon", new List<double> { 4.4, 5, 0.02, 0.33, 1 } },
             };
 
-        private Dictionary<string, List<double>> butterUnits = new Dictionary<string, List<double>>
+        private readonly Dictionary<string, List<double>> butterUnits = new()
             {
                 { "g", new List<double> { 1, 1.042, 0.004, 0.069, 0.208 } },
                 { "ml", new List<double> { 0.96, 1, 0.004, 0.067, 0.2 } },
@@ -148,7 +130,7 @@ namespace Cookbook.App.Concrete
                 { "teaspoon", new List<double> { 4.8, 5, 0.02, 0.33, 1 } },
             };
 
-        private Dictionary<string, List<double>> wheatFlourUnits = new Dictionary<string, List<double>>
+        private readonly Dictionary<string, List<double>> wheatFlourUnits = new()
             {
                 { "g", new List<double> { 1, 1.563, 0.006, 0.104, 0.313 } },
                 { "ml", new List<double> { 0.64, 1, 0.004, 0.067, 0.2 } },
@@ -157,7 +139,7 @@ namespace Cookbook.App.Concrete
                 { "teaspoon", new List<double> { 3.2, 5, 0.02, 0.33, 1 } },
             };
 
-        private Dictionary<string, List<double>> oilUnits = new Dictionary<string, List<double>>
+        private readonly Dictionary<string, List<double>> oilUnits = new()
             {
                 { "g", new List<double> { 1, 1.055, 0.004, 0.064, 0.192 } },
                 { "ml", new List<double> { 1.04, 1, 0.004, 0.067, 0.2 } },
@@ -166,7 +148,7 @@ namespace Cookbook.App.Concrete
                 { "teaspoon", new List<double> { 5.2, 5, 0.02, 0.33, 1 } },
             };
 
-        private Dictionary<string, List<double>> cream18Units = new Dictionary<string, List<double>>
+        private readonly Dictionary<string, List<double>> cream18Units = new()
             {
                 { "g", new List<double> { 1, 0.962, 0.004, 0.07, 0.211 } },
                 { "ml", new List<double> { 0.948, 1, 0.004, 0.067, 0.2 } },
