@@ -39,11 +39,11 @@ namespace Cookbook
                         break;
                     case '3':
                         var showProducts = productManager.ChooseProductToCalculate();
-                        var chosenProduct = productService.ChosenProduct(showProducts);
-                        if (chosenProduct.Count > 0)
+                        var unitsList = productService.GetUnitsListFromChosenProduct(showProducts);
+                        if (unitsList.Count > 0)
                         {
                             var unitToCalculate = productManager.ChooseUnitToCalculate();
-                            productManager.ShowResultAfterCalculate(showProducts, chosenProduct, unitToCalculate);
+                            productManager.ShowResultAfterCalculate(showProducts, unitsList, unitToCalculate);
                             break;
                         }
                         else
@@ -55,7 +55,7 @@ namespace Cookbook
                         recipeManager.SelectRecipeToRemove();
                         break;
                     case '5':
-                        recipeManager.UpdateRecipeView();
+                        recipeManager.SelectRecipeToUpdate();
                         break;
                     case '9':
                         Console.WriteLine("\nThank you for using the Cookbook App. See you soon!");

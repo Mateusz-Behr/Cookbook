@@ -15,8 +15,7 @@ namespace Cookbook.App.Common
     {
         public List<T> Items { get; set; }
 
-        public int nextId = 1;
-        public List<int> freeIds = new List<int>();
+   
         public BaseService() 
         {
             Items = new List<T>();
@@ -53,24 +52,6 @@ namespace Cookbook.App.Common
         {
             var entity = Items.FirstOrDefault(p =>p.Id == id);
             return entity;
-        }
-
-        public int GetFreeId()
-        {
-            int searchedId;
-
-            if (freeIds.Count > 0)
-            {
-                searchedId = freeIds[0];
-                freeIds.RemoveAt(0);
-                return searchedId;
-            }
-            else
-            {
-                searchedId = nextId;
-                nextId++;
-                return searchedId;
-            }
         }
     }
 }

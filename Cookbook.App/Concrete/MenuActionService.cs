@@ -18,7 +18,7 @@ namespace Cookbook.App.Concrete
 
         public List<MenuAction> GetMenuActionsByMenuName(string menuName)
         {
-            List<MenuAction> result = new List<MenuAction>();
+            List<MenuAction> result = new();
             foreach(var menuAction in Items)
             {
                 if(menuAction.MenuName == menuName)

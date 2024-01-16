@@ -37,7 +37,7 @@ namespace Cookbook.App.Managers
 
                 Console.WriteLine("\nPlease enter ingredients (comma-separated)");
                 var ingredientsInput = Console.ReadLine();
-                List<string> ingredients = new List<string>(ingredientsInput.ToLower().Split(", "));
+                List<string> ingredients = new (ingredientsInput.ToLower().Split(", "));
 
                 Console.WriteLine("\nPlease enter instructions (press Enter twice to finish): ");
                 StringBuilder instructionsBuilder = new StringBuilder();
@@ -147,7 +147,7 @@ namespace Cookbook.App.Managers
             }
         }
 
-        public void DisplayRecipes(List<Recipe> recipes)
+        private void DisplayRecipes(List<Recipe> recipes)
         {
             if (recipes.Count > 0)
             {
@@ -178,10 +178,10 @@ namespace Cookbook.App.Managers
             Console.WriteLine($"Preparation time: {recipe.PreparationTime}");
         }
 
-        public void UpdateRecipeView()
+        public void SelectRecipeToUpdate()
         {
             Console.WriteLine("\r\nEnter the name or ID of the recipe you want to update.");
-            string userInput = Console.ReadLine();
+            var userInput = Console.ReadLine();
 
             if (int.TryParse(userInput, out int recipeId))
             {
@@ -211,7 +211,7 @@ namespace Cookbook.App.Managers
             }
         }
 
-        public void ConfirmUpdate(Recipe recipe)
+        private void ConfirmUpdate(Recipe recipe)
         {
             if (UserActionManager.ConfirmSelection($"update {recipe.Name} recipe?"))
             {
@@ -236,7 +236,7 @@ namespace Cookbook.App.Managers
             }
         }
 
-        public void UpdateRecipe(int chosenProperty, Recipe recipe)
+        private void UpdateRecipe(int chosenProperty, Recipe recipe)
         {
             switch (chosenProperty)
             {
@@ -252,7 +252,7 @@ namespace Cookbook.App.Managers
                     break;
                 case 3:
                     Console.WriteLine("\nPlease enter new ingredients (comma-separated)");
-                    List<string> newIngredients = new List<string>(Console.ReadLine().ToLower().Split(", "));
+                    List<string> newIngredients = new (Console.ReadLine().ToLower().Split(", "));
                     recipe.Ingredients = newIngredients;
                     break;
                 case 4:

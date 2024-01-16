@@ -13,9 +13,8 @@ namespace Cookbook.Domain.Entity
         public string Name { get; set; }
         public Dictionary<string, List<double>> ListOfUnits { get; set; }
 
-        public Product(int id, string name, Dictionary<string, List<double>> listOfUnits)
+        public Product(string name, Dictionary<string, List<double>> listOfUnits)
         {
-            Id = id;
             Name = name;
             ListOfUnits = listOfUnits;
         }

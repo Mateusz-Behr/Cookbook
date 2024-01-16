@@ -19,7 +19,7 @@ namespace Cookbook.App.Concrete
             Initialize();
         }
 
-        public Dictionary<string, List<double>> ChosenProduct(int chosenProduct)
+        public Dictionary<string, List<double>> GetUnitsListFromChosenProduct(int chosenProduct)
         {
 
             if (chosenProduct > 0 && chosenProduct <= Items.Count)
@@ -90,7 +90,7 @@ namespace Cookbook.App.Concrete
 
         private Product CreateProduct(string name, Dictionary<string, List<double>> units)
         {
-            return new Product(GetFreeId(), name, units);
+            return new Product(name, units);
         }
 
         private void Initialize()
