@@ -77,7 +77,7 @@ namespace Cookbook.App.Concrete
         public List<double> CalculateUnits(double value, Dictionary<string, List<double>> product, int chosenUnitNumber)
         {
             string unitName = GetAccessToUnitsList(chosenUnitNumber);
-            List<double> results = new List<double>();
+            List<double> results = new();
 
             for (int i = 0; i < product[unitName].Count; i++)
             {
@@ -90,7 +90,7 @@ namespace Cookbook.App.Concrete
 
         private Product CreateProduct(string name, Dictionary<string, List<double>> units)
         {
-            return new Product(name, units);
+            return new Product(GetFreeId(), name, units);
         }
 
         private void Initialize()

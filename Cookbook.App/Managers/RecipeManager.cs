@@ -147,7 +147,7 @@ namespace Cookbook.App.Managers
             }
         }
 
-        private void DisplayRecipes(List<Recipe> recipes)
+        private static void DisplayRecipes(List<Recipe> recipes)
         {
             if (recipes.Count > 0)
             {

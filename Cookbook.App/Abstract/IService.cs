@@ -11,8 +11,7 @@ namespace Cookbook.App.Abstract
         public List<T> Items { get; set; }
         List<T> GetAllItems();
         int AddItem(T item);
-        void UpdateItem(T item);
-        void RemoveItem(T item);
         T GetItemById(int id);
+        int GetFreeId();
     }
 }

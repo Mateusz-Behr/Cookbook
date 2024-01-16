@@ -24,4 +24,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Cookbook.App\Cookbook.App.csproj" />
+  </ItemGroup>
+
 </Project>

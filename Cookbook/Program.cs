@@ -11,17 +11,17 @@ namespace Cookbook
 {
     class Program
     {
-        public const string FILE_NAME = "F:\\Cookbook App\\Recipes.xlsx";
+        //public const string FILE_NAME = "F:\\Cookbook App\\Recipes.xlsx";
         static void Main(string[] args)
         {
 
-            RecipeService recipeService = new RecipeService();
-            MenuActionService menuActionService = new MenuActionService();
-            Helpers helpers = new Helpers();
-            UserActionManager userManager = new UserActionManager(menuActionService, helpers);
-            RecipeManager recipeManager = new RecipeManager(userManager, recipeService, helpers);
-            ProductService productService = new ProductService();
-            ProductManager productManager = new ProductManager(userManager, productService, helpers, menuActionService);
+            RecipeService recipeService = new();
+            MenuActionService menuActionService = new();
+            Helpers helpers = new();
+            UserActionManager userManager = new (menuActionService, helpers);
+            RecipeManager recipeManager = new (userManager, recipeService, helpers);
+            ProductService productService = new();
+            ProductManager productManager = new (userManager, productService, helpers, menuActionService);
             
 
             Console.WriteLine("Welcome to Cookbook App.");
@@ -67,8 +67,6 @@ namespace Cookbook
                 }
             }
         }
-
-
     }
 }
 
