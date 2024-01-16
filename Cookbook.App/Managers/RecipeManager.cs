@@ -81,7 +81,7 @@ namespace Cookbook.App.Managers
                 if (UserActionManager.ConfirmSelection($"remove {recipe.Name} recipe?"))
                 {
                     Console.WriteLine($"\n{recipe.Name} has been removed from Cookbook successfully");
-                    _recipeService.RemoveItem(recipe);
+                    _recipeService.RemoveRecipe(recipe);
                 }
                 else
                 {

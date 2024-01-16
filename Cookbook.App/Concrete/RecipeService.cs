@@ -19,7 +19,7 @@ namespace Cookbook.App.Concrete
         private int nextId = 1;
         private readonly List<int> freeIds = new();
 
-        public override void RemoveItem(Recipe recipe)
+        public void RemoveRecipe(Recipe recipe)
         {
             Items.Remove(recipe);
             freeIds.Add(recipe.Id);
