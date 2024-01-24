@@ -27,7 +27,6 @@ namespace Cookbook.Tests
         {
             //Arrange
 
-
             var mock = new Mock<IService<Recipe>>(MockBehavior.Strict);
             var service = new BaseService<Recipe>();
 
@@ -86,29 +85,35 @@ namespace Cookbook.Tests
             result.Should().BeSameAs(recipe);
         }
 
-        //[Fact]
-        //public void GetFreeId_ReturnAvailableFreeId()
-        //{
-        //    //Arrange
-        //    var mock = new Mock<IService<Recipe>>(MockBehavior.Strict);
-        //    var service = new BaseService<Recipe>();
-            
-        //    //int nextId = 1;
-            
-        //    List<int> freeIds = new() { 5 };
-        //    //int searchedId = 0;
+        [Fact]
+        public void GetFreeId_ReturnAvailableFreeId_WithEmptyFreeIds() //wersja z Mock
+        {
+            // Arrange
+            var mock = new Mock<IService<Recipe>>(MockBehavior.Strict);
+            var service = new TestBaseService<Recipe>();
 
-        //    mock.Setup(s => s.GetFreeId()).Returns(() => service.GetFreeId());
+            service.SetFreeIds(new List<int>()); // Ustawienie pustej listy
+            mock.Setup(s => s.GetFreeId()).Returns(1);
 
-        //    //Act
-        //    var result = service.GetFreeId();
+            // Act
+            var result = mock.Object.GetFreeId();
 
-        //    //Arange
-        //    result.Should().Be(5);
-        //    freeIds.Should().NotContain(5);
+            // Assert
+            result.Should().Be(1);
+        }
 
-        //    var nextResult = service.GetFreeId();
-        //    nextResult.Should().Be(1);
-        //}
+        [Fact]
+        public void GetFreeId_ReturnAvailableFreeId_WithNonEmptyFreeIds() //wersja bez Mock
+        {
+            // Arrange
+            var service = new TestBaseService<Recipe>();
+            service.SetFreeIds(new List<int> { 5, 10 }); // Ustawienie listy z wartoœciami
+
+            // Act
+            var result = service.GetFreeId();
+
+            // Assert
+            result.Should().Be(5);
+        }
     }
 }
