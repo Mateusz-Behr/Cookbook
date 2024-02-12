@@ -55,10 +55,9 @@ namespace Cookbook.App.Managers
                 var inputtedPreparationTime = Console.ReadLine();
                 int preparationTime = _helpers.ConvertToInt(inputtedPreparationTime);
 
-                int id = _recipeService.GetFreeId();
-
-                Recipe recipe = new(id, name, mealTypeNumber, ingredients, instructions, preparationTime);
+                Recipe recipe = new(name, mealTypeNumber, ingredients, instructions, preparationTime);
                 _recipeService.AddItem(recipe);
+
                 Console.WriteLine("\nRecipe added successfully!");
 
             }
@@ -157,10 +156,12 @@ namespace Cookbook.App.Managers
 
                     Helpers.MealType mealType = (Helpers.MealType)recipe.MealTypeNumber;
 
-                    Console.WriteLine($"\nName: {recipe.Name}\nId: {recipe.Id}");
+                    Console.WriteLine($"\nId: {recipe.Id}");
+                    Console.WriteLine($"Name: {recipe.Name}");
                     Console.WriteLine("Igredients: " + string.Join(", ", recipe.Ingredients));
-                    Console.WriteLine($"Instructions:\r\n" + recipe.Instructions);
-                    Console.WriteLine($"MealType: {mealType}\nPreparation time: {recipe.PreparationTime}");
+                    Console.WriteLine($"Instructions:\r\n {recipe.Instructions}");
+                    Console.WriteLine($"MealType: {mealType}");
+                    Console.WriteLine($"Preparation time: {recipe.PreparationTime}");
                 }
             }
             else
@@ -171,10 +172,11 @@ namespace Cookbook.App.Managers
 
         private static void DisplaySingleRecipe(Recipe recipe)
         {
-            Console.WriteLine($"\nName: {recipe.Name}");
+            Console.WriteLine($"\nId: {recipe.Id}");
+            Console.WriteLine($"Name: {recipe.Name}");
             Console.WriteLine($"Meal type: {(Helpers.MealType)recipe.MealTypeNumber}");
             Console.WriteLine("Igredients: " + string.Join(", ", recipe.Ingredients));
-            Console.WriteLine($"Instructions: {recipe.Instructions}");
+            Console.WriteLine($"Instructions:\r\n {recipe.Instructions}");
             Console.WriteLine($"Preparation time: {recipe.PreparationTime}");
         }
 

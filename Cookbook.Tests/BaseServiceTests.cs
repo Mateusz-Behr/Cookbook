@@ -23,34 +23,34 @@ namespace Cookbook.Tests
         };
 
         [Fact]
-        public void AddItem_AddNewItemToListAndReturnItemId()
+        public void AddItem_AddsNewItemToListAndReturnsItemId()
         {
             //Arrange
 
             var mock = new Mock<IService<Recipe>>(MockBehavior.Strict);
             var service = new BaseService<Recipe>();
 
-            Recipe recipe = new (1, "Scrambled eggs", 1, ingredients1, "stir in the pan", 15);
+            Recipe recipe = new ("Scrambled eggs", 1, ingredients1, "stir in the pan", 15);
 
-            mock.Setup(s => s.Items).Returns(service.Items); //ustawienie pozornego obiektu kolekcji Items
+            mock.Setup(s => s.Items).Returns(service.Items);
 
             //Act
             var result = service.AddItem(recipe);
 
             //Assert
-            service.Items.Should().HaveCount(1); //czy element zosta³ dodany do kolekcji
-            result.Should().Be(1);  //czy metoda zwróci³a prawid³owe Id dodanego elementu
+            service.Items.Should().HaveCount(1);
+            result.Should().Be(1);
         }
 
         [Fact]
-        public void GetAllItems_ReturnListOfItems()
+        public void GetAllItems_ReturnsListOfItems()
         {
             //Arrange
             var mock = new Mock<IService<Recipe>>(MockBehavior.Strict);
             var service = new BaseService<Recipe>();
 
-            Recipe recipe1 = new (1, "Scrambled eggs", 1, ingredients1, "stir in the pan", 15);
-            Recipe recipe2 = new (2, "Pancakes", 2, ingredients2, "mix ingredients and cook", 20);
+            Recipe recipe1 = new ("Scrambled eggs", 1, ingredients1, "stir in the pan", 15);
+            Recipe recipe2 = new ("Pancakes", 2, ingredients2, "mix ingredients and cook", 20);
 
             service.AddItem(recipe1);
             service.AddItem(recipe2);
@@ -68,13 +68,13 @@ namespace Cookbook.Tests
         }
 
         [Fact]
-        public void GetItemById_ReturnItemByGivenId()
+        public void GetItemById_ReturnsItemByGivenId()
         {
             //Arrange
             var mock = new Mock<IService<Recipe>>(MockBehavior.Strict);
             var service = new BaseService<Recipe>();
 
-            Recipe recipe = new(1, "Scrambled eggs", 1, ingredients1, "stir in the pan", 15);
+            Recipe recipe = new("Scrambled eggs", 1, ingredients1, "stir in the pan", 15);
 
             mock.Setup(s => s.GetItemById(1)).Returns(recipe);
 
@@ -83,37 +83,6 @@ namespace Cookbook.Tests
 
             //Assert
             result.Should().BeSameAs(recipe);
-        }
-
-        [Fact]
-        public void GetFreeId_ReturnAvailableFreeId_WithEmptyFreeIds() //wersja z Mock
-        {
-            // Arrange
-            var mock = new Mock<IService<Recipe>>(MockBehavior.Strict);
-            var service = new TestBaseService<Recipe>();
-
-            service.SetFreeIds(new List<int>()); // Ustawienie pustej listy
-            mock.Setup(s => s.GetFreeId()).Returns(1);
-
-            // Act
-            var result = mock.Object.GetFreeId();
-
-            // Assert
-            result.Should().Be(1);
-        }
-
-        [Fact]
-        public void GetFreeId_ReturnAvailableFreeId_WithNonEmptyFreeIds() //wersja bez Mock
-        {
-            // Arrange
-            var service = new TestBaseService<Recipe>();
-            service.SetFreeIds(new List<int> { 5, 10 }); // Ustawienie listy z wartoœciami
-
-            // Act
-            var result = service.GetFreeId();
-
-            // Assert
-            result.Should().Be(5);
         }
     }
 }

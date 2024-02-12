@@ -19,7 +19,6 @@ namespace Cookbook.App.Concrete
         public void RemoveRecipe(Recipe recipe)
         {
             Items.Remove(recipe);
-            freeIds.Add(recipe.Id);
         }
     }
 }

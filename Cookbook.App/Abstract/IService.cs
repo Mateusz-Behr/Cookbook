@@ -12,6 +12,5 @@ namespace Cookbook.App.Abstract
         List<T> GetAllItems();
         int AddItem(T item);
         T GetItemById(int id);
-        int GetFreeId();
     }
 }

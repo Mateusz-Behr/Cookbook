@@ -10,12 +10,13 @@ namespace Cookbook.Domain.Entity
 {
     public class Product : BaseEntity
     {
+        private static int lastProductId = 0;
         public string Name { get; set; }
         public Dictionary<string, List<double>> ListOfUnits { get; set; }
 
-        public Product(int id, string name, Dictionary<string, List<double>> listOfUnits)
+        public Product(string name, Dictionary<string, List<double>> listOfUnits)
         {
-            Id = id;
+            Id = ++lastProductId;
             Name = name;
             ListOfUnits = listOfUnits;
         }

@@ -71,7 +71,6 @@ namespace Cookbook.App.Concrete
                 default:
                     return "unknown";
             }
-
         }
 
         public List<double> CalculateUnits(double value, Dictionary<string, List<double>> product, int chosenUnitNumber)
@@ -90,7 +89,7 @@ namespace Cookbook.App.Concrete
 
         private Product CreateProduct(string name, Dictionary<string, List<double>> units)
         {
-            return new Product(GetFreeId(), name, units);
+            return new Product(name, units);
         }
 
         private void Initialize()

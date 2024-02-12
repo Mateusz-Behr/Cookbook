@@ -11,15 +11,16 @@ namespace Cookbook.Domain.Entity
     
     public class Recipe : BaseEntity
     {
+        private static int lastRecipeId = 0;
         public string Name { get; set; }
         public List<string> Ingredients { get; set; }
         public string Instructions { get; set; }
         public int MealTypeNumber { get; set; }
         public int PreparationTime { get; set; }
 
-        public Recipe(int id, string name, int mealTypeNumber, List<string> ingredients, string instructions, int preparationTime)
+        public Recipe(string name, int mealTypeNumber, List<string> ingredients, string instructions, int preparationTime)
         {
-            Id = id;
+            Id = ++lastRecipeId;
             Name = name;
             MealTypeNumber = mealTypeNumber;
             Ingredients = ingredients;
