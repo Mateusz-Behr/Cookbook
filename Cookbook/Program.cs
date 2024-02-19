@@ -21,7 +21,7 @@ namespace Cookbook
             UserActionManager userManager = new (menuActionService, helpers);
             RecipeManager recipeManager = new (userManager, recipeService, helpers);
             ProductService productService = new();
-            ProductManager productManager = new (userManager, productService, helpers, menuActionService);
+            ProductManager productManager = new (userManager, productService, menuActionService);
             
 
             Console.WriteLine("Welcome to Cookbook App.");
@@ -38,13 +38,28 @@ namespace Cookbook
                         recipeManager.AddNewRecipe();
                         break;
                     case '3':
-                        var showProducts = productManager.ChooseProductToCalculate();
-                        var unitsList = productService.GetUnitsListFromChosenProduct(showProducts);
+                        var chosenProduct = productManager.ChooseProductToCalculate();
+                        var unitsList = productService.GetUnitsListFromChosenProduct(chosenProduct);
                         if (unitsList.Count > 0)
                         {
                             var unitToCalculate = productManager.ChooseUnitToCalculate();
-                            productManager.ShowResultAfterCalculate(showProducts, unitsList, unitToCalculate);
-                            break;
+                            if (unitToCalculate >= 1 && unitToCalculate <= productService.Items[0].ListOfUnits.Count)
+                            {
+                                var valueToRecalculate = productManager.GetValueToRecalculate();
+                                var unitNameFromNumber = productService.GetUnitNameByNumber(unitToCalculate);
+                                var unitFullName = productService.GetUnitFullName(unitToCalculate);
+
+                                var results = productService.CalculateUnits(valueToRecalculate, unitsList, unitNameFromNumber);
+
+                                productManager.ShowResultsOfCalculating(chosenProduct, valueToRecalculate, unitFullName, results);
+                                break;
+                            }
+                            else
+                            {
+                                Console.WriteLine("\nYou have chosen a wrong unit.");
+                                break;
+                            }
+                            
                         }
                         else
                         {

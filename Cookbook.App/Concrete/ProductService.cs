@@ -32,7 +32,7 @@ namespace Cookbook.App.Concrete
             }
         }
 
-        public string GetAccessToUnitsList(int chosenUnitNumber)
+        public string GetUnitNameByNumber(int chosenUnitNumber)
         {
             switch (chosenUnitNumber)
             {
@@ -49,10 +49,9 @@ namespace Cookbook.App.Concrete
                 default:
                     return "";
             }
-
         }
 
-        public string GetUnitName(int chosenUnitNumber)
+        public string GetUnitFullName(int chosenUnitNumber)
         {
             
             Helpers.UnitType unitType = (Helpers.UnitType)chosenUnitNumber;
@@ -73,14 +72,13 @@ namespace Cookbook.App.Concrete
             }
         }
 
-        public List<double> CalculateUnits(double value, Dictionary<string, List<double>> product, int chosenUnitNumber)
+        public List<double> CalculateUnits(double value, Dictionary<string, List<double>> productUnits, string unitName)
         {
-            string unitName = GetAccessToUnitsList(chosenUnitNumber);
             List<double> results = new();
 
-            for (int i = 0; i < product[unitName].Count; i++)
+            for (int i = 0; i < productUnits[unitName].Count; i++)
             {
-                double result = Math.Round(value * product[unitName][i], 2);
+                double result = Math.Round(value * productUnits[unitName][i], 2);
                 results.Add(result);
             }
 

@@ -13,14 +13,12 @@ namespace Cookbook.App.Managers
     {
         private readonly UserActionManager _userManager;
         private readonly ProductService _productService;
-        private readonly Helpers _helpers;
         private readonly MenuActionService _menuActionService;
 
-        public ProductManager(UserActionManager userManager, ProductService productService, Helpers helpers, MenuActionService menuActionService)
+        public ProductManager(UserActionManager userManager, ProductService productService, MenuActionService menuActionService)
         {
             _userManager = userManager;
             _productService = productService;
-            _helpers = helpers;
             _menuActionService = menuActionService;
         }
 
@@ -39,44 +37,37 @@ namespace Cookbook.App.Managers
             return chosenUnit;
         }
 
-        public void ShowResultAfterCalculate(int chosenProduct, Dictionary<string, List<double>> productUnits, int chosenUnit)
+        public double GetValueToRecalculate()
         {
-
-            if (chosenUnit >= 1 && chosenUnit <= _productService.Items[0].ListOfUnits.Count)
+            while (true)
             {
                 Console.WriteLine("\nEnter a value:");
                 var inputtedValueToRecalculate = Console.ReadLine();
 
-                double valueToRecalculate = _helpers.ConvertToDouble(inputtedValueToRecalculate);
-
-                if (valueToRecalculate >= 0)
+                if (Double.TryParse(inputtedValueToRecalculate, out double valueToRecalculate) && valueToRecalculate >= 0)
                 {
-                    List<double> results = _productService.CalculateUnits(valueToRecalculate, productUnits, chosenUnit);
-                    string unitName = _productService.GetUnitName(chosenUnit);
-
-                    List<MenuAction> productsMenuActions = _menuActionService.GetMenuActionsByMenuName("ShowProductsMenu");
-                    MenuAction targetProductMenuAction = productsMenuActions.FirstOrDefault(action => action.Id == chosenProduct);
-
-                    Console.WriteLine($"\n{valueToRecalculate} {unitName} of {targetProductMenuAction.Name} = \n");
-                    for (int i = 0; i < results.Count; i++)
-                    {
-                        if (unitName != _productService.GetUnitName(i + 1))
-                        {
-                            Console.WriteLine($"{results[i]} {_productService.GetUnitName(i + 1)}");
-                        }
-                    
-                    }
+                    return valueToRecalculate;
                 }
                 else
                 {
-                    Console.WriteLine("\r\nThe specified value cannot be negative.");
-                }               
+                    Console.WriteLine("Invalid input. Please enter a valid positive number:");
+                }
             }
-            else
+        }
+
+        public void ShowResultsOfCalculating(int chosenProduct, double valueToRecalculate, string unitName, List<double> results)
+        {
+            List<MenuAction> productsMenuActions = _menuActionService.GetMenuActionsByMenuName("ShowProductsMenu");
+            MenuAction targetProductMenuAction = productsMenuActions.FirstOrDefault(action => action.Id == chosenProduct);
+
+            Console.WriteLine($"\n{valueToRecalculate} {unitName} of {targetProductMenuAction.Name} = \n");
+            for (int i = 0; i < results.Count; i++)
             {
-                Console.WriteLine("\nYou have chosen a wrong unit.");
+                if (unitName != _productService.GetUnitFullName(i + 1))
+                {
+                    Console.WriteLine($"{results[i]} {_productService.GetUnitFullName(i + 1)}");
+                }
             }
-            
         }
     }
 }

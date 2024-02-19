@@ -75,13 +75,13 @@ namespace Cookbook.Tests
         [InlineData(5, "teaspoon")]
         [InlineData(6, "")]
         [InlineData(0, "")]
-        public void GetAccessToUnitsList_ReturnsCorrectUnit(int chosenUnitNumber, string unitName)
+        public void GetUnitNameByNumber_ReturnsCorrectUnit(int chosenUnitNumber, string unitName)
         {
             //Arrange
             var service = new ProductService();
 
             //Act
-            var result = service.GetAccessToUnitsList(chosenUnitNumber);
+            var result = service.GetUnitNameByNumber(chosenUnitNumber);
 
             //Assert
             result.Should().Be(unitName);
@@ -95,13 +95,13 @@ namespace Cookbook.Tests
         [InlineData((int)Helpers.UnitType.Teaspoons, "teaspoon(s)")]
         [InlineData(6, "unknown")]
         [InlineData(0, "unknown")]
-        public void GetUnitName_ReturnsCorrectUnitName(int chosenUnitNumber, string unitName)
+        public void GetUnitFullName_ReturnsCorrectUnitName(int chosenUnitNumber, string unitName)
         {
             //Arrange
             var service = new ProductService();
 
             //Act
-            var result = service.GetUnitName(chosenUnitNumber);
+            var result = service.GetUnitFullName(chosenUnitNumber);
 
             //Assert
             result.Should().Be(unitName);
@@ -112,13 +112,13 @@ namespace Cookbook.Tests
         {
             //Arrange
             double value = 10.0;
-            int chosenUnitNumber = 1;
+            string unitName = "g";
             var expectedResults = new List<double> { 10.0, 10.0, 0.04, 0.67, 2.0 };
 
             var service = new ProductService();
 
             //Act
-            var result = service.CalculateUnits(value, testUnits, chosenUnitNumber);
+            var result = service.CalculateUnits(value, testUnits, unitName);
 
             //Assert
             result.Should().BeEquivalentTo(expectedResults);

@@ -25,10 +25,13 @@ namespace Cookbook.App.Managers
             _helpers = helpers;
         }
 
+        bool isValidInput = false;
+        int preparationTime;
+
         public void AddNewRecipe()
         {
             ConsoleKeyInfo operation = _userManager.ShowMenu("RecipeMenu", "What type of meal you want to add?");
-            Int32.TryParse(operation.KeyChar.ToString(), out int mealTypeNumber);
+            int.TryParse(operation.KeyChar.ToString(), out int mealTypeNumber);
 
             if (mealTypeNumber >= 1 && mealTypeNumber <= 4)
             {
@@ -40,7 +43,7 @@ namespace Cookbook.App.Managers
                 List<string> ingredients = new (ingredientsInput.ToLower().Split(", "));
 
                 Console.WriteLine("\nPlease enter instructions (press Enter twice to finish): ");
-                StringBuilder instructionsBuilder = new StringBuilder();
+                StringBuilder instructionsBuilder = new();
 
                 string line;
 
@@ -51,15 +54,24 @@ namespace Cookbook.App.Managers
 
                 var instructions = instructionsBuilder.ToString();
 
-                Console.WriteLine("\nPlease enter the cooking time in minutes: ");
-                var inputtedPreparationTime = Console.ReadLine();
-                int preparationTime = _helpers.ConvertToInt(inputtedPreparationTime);
+                do
+                {
+                    Console.WriteLine("\nPlease enter the cooking time in minutes: ");
+                    var inputtedPreparationTime = Console.ReadLine();
 
+                    isValidInput = int.TryParse(inputtedPreparationTime, out preparationTime);
+                    
+                    if (!isValidInput || preparationTime <= 0)
+                    {
+                        Console.WriteLine("Incorrect data. Enter a positive integer.");
+                    }
+                }
+                while (!isValidInput || preparationTime <= 0);
+                
                 Recipe recipe = new(name, mealTypeNumber, ingredients, instructions, preparationTime);
                 _recipeService.AddItem(recipe);
 
                 Console.WriteLine("\nRecipe added successfully!");
-
             }
             else
             {
@@ -159,7 +171,7 @@ namespace Cookbook.App.Managers
                     Console.WriteLine($"\nId: {recipe.Id}");
                     Console.WriteLine($"Name: {recipe.Name}");
                     Console.WriteLine("Igredients: " + string.Join(", ", recipe.Ingredients));
-                    Console.WriteLine($"Instructions:\r\n {recipe.Instructions}");
+                    Console.WriteLine($"Instructions: {recipe.Instructions}");
                     Console.WriteLine($"MealType: {mealType}");
                     Console.WriteLine($"Preparation time: {recipe.PreparationTime}");
                 }
@@ -176,7 +188,7 @@ namespace Cookbook.App.Managers
             Console.WriteLine($"Name: {recipe.Name}");
             Console.WriteLine($"Meal type: {(Helpers.MealType)recipe.MealTypeNumber}");
             Console.WriteLine("Igredients: " + string.Join(", ", recipe.Ingredients));
-            Console.WriteLine($"Instructions:\r\n {recipe.Instructions}");
+            Console.WriteLine($"Instructions: {recipe.Instructions}");
             Console.WriteLine($"Preparation time: {recipe.PreparationTime}");
         }
 

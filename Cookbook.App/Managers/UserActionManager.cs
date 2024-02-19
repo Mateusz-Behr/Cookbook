@@ -62,12 +62,9 @@ namespace Cookbook.App.Managers
 
             string chosenMenuItemString = Console.ReadLine();
 
-            int chosenMenuItem = _helpers.ConvertToInt(chosenMenuItemString);
+            Int32.TryParse(chosenMenuItemString, out int chosenMenuItem);
             return chosenMenuItem;
 
         }
-
-    }
-
-    
+    } 
 }
