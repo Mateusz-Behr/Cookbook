@@ -18,7 +18,7 @@ namespace Cookbook
             RecipeService recipeService = new();
             MenuActionService menuActionService = new();
             Helpers helpers = new();
-            UserActionManager userManager = new (menuActionService, helpers);
+            UserActionManager userManager = new (menuActionService);
             RecipeManager recipeManager = new (userManager, recipeService, helpers);
             ProductService productService = new();
             ProductManager productManager = new (userManager, productService, menuActionService);

@@ -12,12 +12,10 @@ namespace Cookbook.App.Managers
 
     {
         private readonly MenuActionService _menuActionService;
-        private readonly Helpers _helpers;
 
-        public UserActionManager(MenuActionService menuActionService, Helpers helpers)
+        public UserActionManager(MenuActionService menuActionService)
         {
             _menuActionService = menuActionService;
-            _helpers = helpers;
         }
         public static bool ConfirmSelection(string selectionName)
         {
@@ -62,7 +60,7 @@ namespace Cookbook.App.Managers
 
             string chosenMenuItemString = Console.ReadLine();
 
-            Int32.TryParse(chosenMenuItemString, out int chosenMenuItem);
+            int.TryParse(chosenMenuItemString, out int chosenMenuItem);
             return chosenMenuItem;
 
         }

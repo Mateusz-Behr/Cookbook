@@ -82,9 +82,7 @@ namespace Cookbook.App.Managers
 
         public void SelectRecipeToRemove()
         {
-            Console.WriteLine("\nPlease enter Id for recipe you want to remove: ");
-            Int32.TryParse(Console.ReadLine().ToString(), out int idToRemove);
-
+            int idToRemove = GetRecipeIdFromUserInput();
             Recipe recipe = _recipeService.GetItemById(idToRemove);
 
             if (_recipeService.Items.Count > 0 && recipe.Id == idToRemove)
@@ -103,6 +101,14 @@ namespace Cookbook.App.Managers
             {
                 Console.WriteLine("\nRecipe not found.");
             }
+        }
+
+        private static int GetRecipeIdFromUserInput()
+        {
+            Console.WriteLine("\nPlease enter Id for recipe you want to remove: ");
+            int.TryParse(Console.ReadLine().ToString(), out int idToRemove);
+
+            return idToRemove;
         }
 
         public void FilterRecipes()
