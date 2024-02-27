@@ -13,16 +13,13 @@ namespace Cookbook.App.Managers
 {
     public class RecipeManager
     {
-
         private readonly UserActionManager _userManager;
         private readonly RecipeService _recipeService;
-        private readonly Helpers _helpers;
 
-        public RecipeManager(UserActionManager userManager, RecipeService recipeService, Helpers helpers)
+        public RecipeManager(UserActionManager userManager, RecipeService recipeService)
         {
             _recipeService = recipeService;
             _userManager = userManager;
-            _helpers = helpers;
         }
 
         bool isValidInput = false;
@@ -76,7 +73,6 @@ namespace Cookbook.App.Managers
             else
             {
                 Console.WriteLine("\nWrong meal type.");
-
             }
         }
 
@@ -123,7 +119,7 @@ namespace Cookbook.App.Managers
             return idToRemove;
         }
 
-        public void FilterRecipes()
+        public void ShowRecipes()
         {
             ConsoleKeyInfo operation = _userManager.ShowMenu("ShowRecipesByFilterMenu", "How would you like to view the recipes?");
             int filter = (int)char.GetNumericValue(operation.KeyChar);
@@ -136,7 +132,6 @@ namespace Cookbook.App.Managers
                     filteredRecipes = _recipeService.GetAllItems();
                     DisplayRecipes(filteredRecipes.OrderBy(r => r.Name).ToList());
                     break;
-
                 case 2:
                     ConsoleKeyInfo mealType = _userManager.ShowMenu("RecipeMenu", "What type of meals you want to display:");
                     int mealTypeNumber = (int)char.GetNumericValue(mealType.KeyChar);
@@ -144,7 +139,6 @@ namespace Cookbook.App.Managers
                     filteredRecipes = _recipeService.GetAllItems().Where(r => r.MealTypeNumber == mealTypeNumber).ToList();
                     DisplayRecipes(filteredRecipes.OrderBy(r => r.Name).ToList());
                     break;
-
                 case 3:
                     Console.WriteLine("\nEnter an ingredient to filter by: ");
                     string ingredient = Console.ReadLine().ToLower();
@@ -154,7 +148,7 @@ namespace Cookbook.App.Managers
                     break;
                 case 4:
                     Console.WriteLine("\nEnter maximum preparation time (in minutes): ");
-                    Int32.TryParse(Console.ReadLine(), out int maxPreparationTime);
+                    int.TryParse(Console.ReadLine(), out int maxPreparationTime);
 
                     filteredRecipes = _recipeService.GetAllItems().Where(r => r.PreparationTime <= maxPreparationTime).ToList();
                     DisplayRecipes(filteredRecipes.OrderBy(r => r.Name).ToList());
@@ -183,7 +177,6 @@ namespace Cookbook.App.Managers
                 Console.WriteLine("\nRecipes you are looking for: ");
                 foreach (Recipe recipe in recipes)
                 {
-
                     Helpers.MealType mealType = (Helpers.MealType)recipe.MealTypeNumber;
 
                     Console.WriteLine($"\nId: {recipe.Id}");
@@ -214,29 +207,27 @@ namespace Cookbook.App.Managers
         {
             Recipe recipe = SelectRecipeToUpdate();
 
-            if (recipe != null)
+            if (recipe == null)
             {
-                if (ConfirmUpdate(recipe))
+                Console.WriteLine("The recipe with the given ID/name does not exist.");
+                return;
+            }
+
+            if (ConfirmUpdate(recipe))
+            {
+                var chosenProperty = SelectPropertyToUpdate();
+                if (chosenProperty >= 1 && chosenProperty <= 5)
                 {
-                    var chosenProperty = SelectPropertyToUpdate();
-                    if (chosenProperty >= 1 && chosenProperty <= 5)
-                    {
-                        ModifyRecipe(chosenProperty, recipe);
-                    }
-                    else
-                    {
-                        Console.WriteLine("Wrong property choice");
-                    }
+                    ModifyRecipe(chosenProperty, recipe);
                 }
                 else
                 {
-                    Console.WriteLine("\nRecipe updating has been cancelled.");
+                    Console.WriteLine("Wrong property choice");
                 }
-
             }
             else
             {
-                Console.WriteLine("The recipe with the given ID/name does not exist.");
+                Console.WriteLine("\nRecipe updating has been cancelled.");
             }
         }
 
@@ -313,7 +304,7 @@ namespace Cookbook.App.Managers
                     break;
                 case 5:
                     Console.WriteLine("\nEnter approximate preparation time.");
-                    Int32.TryParse(Console.ReadLine(), out int newPreparationTime);
+                    int.TryParse(Console.ReadLine(), out int newPreparationTime);
                     recipe.PreparationTime = newPreparationTime;
                     break;
             }

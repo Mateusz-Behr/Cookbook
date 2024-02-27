@@ -19,7 +19,7 @@ namespace Cookbook
             MenuActionService menuActionService = new();
             Helpers helpers = new();
             UserActionManager userManager = new (menuActionService);
-            RecipeManager recipeManager = new (userManager, recipeService, helpers);
+            RecipeManager recipeManager = new (userManager, recipeService);
             ProductService productService = new();
             ProductManager productManager = new (userManager, productService, menuActionService);
             
@@ -32,7 +32,7 @@ namespace Cookbook
                 switch (operation.KeyChar)
                 {
                     case '1':
-                        recipeManager.FilterRecipes();
+                        recipeManager.ShowRecipes();
                         break;
                     case '2':
                         recipeManager.AddNewRecipe();
