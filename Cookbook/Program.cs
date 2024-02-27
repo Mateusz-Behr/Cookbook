@@ -38,39 +38,13 @@ namespace Cookbook
                         recipeManager.AddNewRecipe();
                         break;
                     case '3':
-                        var chosenProduct = productManager.ChooseProductToCalculate();
-                        var unitsList = productService.GetUnitsListFromChosenProduct(chosenProduct);
-                        if (unitsList.Count > 0)
-                        {
-                            var unitToCalculate = productManager.ChooseUnitToCalculate();
-                            if (unitToCalculate >= 1 && unitToCalculate <= productService.Items[0].ListOfUnits.Count)
-                            {
-                                var valueToRecalculate = productManager.GetValueToRecalculate();
-                                var unitNameFromNumber = productService.GetUnitNameByNumber(unitToCalculate);
-                                var unitFullName = productService.GetUnitFullName(unitToCalculate);
-
-                                var results = productService.CalculateUnits(valueToRecalculate, unitsList, unitNameFromNumber);
-
-                                productManager.ShowResultsOfCalculating(chosenProduct, valueToRecalculate, unitFullName, results);
-                                break;
-                            }
-                            else
-                            {
-                                Console.WriteLine("\nYou have chosen a wrong unit.");
-                                break;
-                            }
-                            
-                        }
-                        else
-                        {
-                            Console.WriteLine("There is no product with that index on list.");
-                            break;
-                        }
+                        productManager.RecalculateUnits();
+                        break;
                     case '4':
-                        recipeManager.SelectRecipeToRemove();
+                        recipeManager.DeleteRecipe();
                         break;
                     case '5':
-                        recipeManager.SelectRecipeToUpdate();
+                        recipeManager.UpdateRecipe();
                         break;
                     case '9':
                         Console.WriteLine("\nThank you for using the Cookbook App. See you soon!");

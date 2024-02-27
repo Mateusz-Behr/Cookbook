@@ -22,6 +22,33 @@ namespace Cookbook.App.Managers
             _menuActionService = menuActionService;
         }
 
+        public void RecalculateUnits()
+        {
+            var chosenProduct = ChooseProductToCalculate();
+            var unitsList = _productService.GetUnitsListFromChosenProduct(chosenProduct);
+            if (unitsList.Count > 0)
+            {
+                var unitToCalculate = ChooseUnitToCalculate();
+                if (unitToCalculate >= 1 && unitToCalculate <= _productService.Items[0].ListOfUnits.Count)
+                {
+                    var valueToRecalculate = GetValueToRecalculate();
+                    var unitNameFromNumber = _productService.GetUnitNameByNumber(unitToCalculate);
+                    var unitFullName = _productService.GetUnitFullName(unitToCalculate);
+
+                    var results = _productService.CalculateUnits(valueToRecalculate, unitsList, unitNameFromNumber);
+
+                    ShowResultsOfCalculating(chosenProduct, valueToRecalculate, unitFullName, results);
+                }
+                else
+                {
+                    Console.WriteLine("\nYou have chosen a wrong unit.");
+                }
+            }
+            else
+            {
+                Console.WriteLine("There is no product with that index on list.");
+            }
+        }
         public int ChooseProductToCalculate()
         {
             int chosenProduct = _userManager.ShowLargeMenu("ShowProductsMenu", "\nChoose a product to recalculate units for:");
