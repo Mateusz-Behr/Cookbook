@@ -17,9 +17,9 @@ namespace Cookbook.App.Managers
         {
             _menuActionService = menuActionService;
         }
-        public static bool ConfirmSelection(string selectionName)
+        public static bool ConfirmSelection(string question)
         {
-            Console.WriteLine($"Are you sure you want to {selectionName} (y/n):");
+            Console.WriteLine($"{question} (y/n):");
             char key;
             do
             {

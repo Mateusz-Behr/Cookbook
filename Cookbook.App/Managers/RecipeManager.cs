@@ -24,6 +24,7 @@ namespace Cookbook.App.Managers
 
         bool isValidInput = false;
         int preparationTime;
+        string recipesListPath = "C:\\Users\\behrm\\source\\RecipesList";
 
         public void AddNewRecipe()
         {
@@ -69,6 +70,11 @@ namespace Cookbook.App.Managers
                 _recipeService.AddItem(recipe);
 
                 Console.WriteLine("\nRecipe added successfully!");
+
+                if (UserActionManager.ConfirmSelection("Do you want to save this recipe to a text file?"))
+                {
+                    FileManager.SaveRecipeToTxtFile(recipesListPath, recipe.Name, recipe);
+                }
             }
             else
             {
@@ -83,7 +89,7 @@ namespace Cookbook.App.Managers
 
             if (recipe != null && recipe.Id == idToRemove)
             {
-                if (UserActionManager.ConfirmSelection($"remove {recipe.Name} recipe?"))
+                if (UserActionManager.ConfirmSelection($"Are you sure you want to remove {recipe.Name} recipe?"))
                 {
                     Console.WriteLine($"\n{recipe.Name} has been removed from Cookbook successfully");
                     _recipeService.RemoveRecipe(recipe);
@@ -256,7 +262,7 @@ namespace Cookbook.App.Managers
 
         private static bool ConfirmUpdate(Recipe recipe)
         {
-            if (UserActionManager.ConfirmSelection($"update {recipe.Name} recipe?"))
+            if (UserActionManager.ConfirmSelection($"Are you sure you want to update {recipe.Name} recipe?"))
             {
                 DisplaySingleRecipe(recipe);
                 return true;
@@ -293,7 +299,6 @@ namespace Cookbook.App.Managers
                     StringBuilder instructionsBuilder = new StringBuilder();
 
                     string line;
-
                     while (!string.IsNullOrWhiteSpace(line = Console.ReadLine()))
                     {
                         instructionsBuilder.Append(line + "\n");
