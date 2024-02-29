@@ -5,6 +5,7 @@ using Cookbook.Domain.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,7 +25,7 @@ namespace Cookbook.App.Managers
 
         bool isValidInput = false;
         int preparationTime;
-        string recipesListPath = "C:\\Users\\behrm\\source\\RecipesList";
+        private const string RECIPES_LIST_PATH = "C:\\Users\\behrm\\source\\RecipesList";
 
         public void AddNewRecipe()
         {
@@ -73,7 +74,7 @@ namespace Cookbook.App.Managers
 
                 if (UserActionManager.ConfirmSelection("Do you want to save this recipe to a text file?"))
                 {
-                    FileManager.SaveRecipeToTxtFile(recipesListPath, recipe.Name, recipe);
+                    FileManager.SaveRecipeToTxtFile(RECIPES_LIST_PATH, recipe.Name, recipe);
                 }
             }
             else
@@ -315,6 +316,37 @@ namespace Cookbook.App.Managers
             }
 
             Console.WriteLine("The update was successful");
+        }
+        public void ExportRecipesToTxt()
+        {
+            if (_recipeService.Items.Count == 0)
+            {
+                Console.WriteLine("There are no recipes to export");
+                return;
+            }
+
+            Console.WriteLine($"{_recipeService.Items.Count} recipe(s) in memory. Enter Id of recipe you want to export.");
+            string userInput = Console.ReadLine();
+            int.TryParse(userInput, out int idToExport);
+
+            if (_recipeService.Items.Any(p => p.Id == idToExport))
+            {
+                Recipe recipeToExport = _recipeService.Items.FirstOrDefault(r => r.Id == idToExport);
+
+                if (UserActionManager.ConfirmSelection($"Are you sure you want to export to .txt {recipeToExport.Name} recipe?"))
+                {
+                    FileManager.SaveRecipeToTxtFile(RECIPES_LIST_PATH, recipeToExport.Name, recipeToExport);
+                }
+                else
+                {
+                    Console.WriteLine("\nThe process has been stopped.");
+                }
+            }
+            else
+            {
+                Console.WriteLine("There is no recipe with that Id.");
+            }
+
         }
     }
 }

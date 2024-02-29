@@ -11,13 +11,11 @@ namespace Cookbook
 {
     class Program
     {
-        //public const string FILE_NAME = "F:\\Cookbook App\\Recipes.xlsx";
         static void Main(string[] args)
         {
 
             RecipeService recipeService = new();
             MenuActionService menuActionService = new();
-            Helpers helpers = new();
             UserActionManager userManager = new (menuActionService);
             RecipeManager recipeManager = new (userManager, recipeService);
             ProductService productService = new();
@@ -45,6 +43,9 @@ namespace Cookbook
                         break;
                     case '5':
                         recipeManager.UpdateRecipe();
+                        break;
+                    case '8':
+                        recipeManager.ExportRecipesToTxt();
                         break;
                     case '9':
                         Console.WriteLine("\nThank you for using the Cookbook App. See you soon!");

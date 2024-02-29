@@ -4,7 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace Cookbook.App.Managers
 {
@@ -29,6 +31,12 @@ namespace Cookbook.App.Managers
             writer.WriteLine($"Prepration time: {recipe.PreparationTime} minutes");
 
             Console.WriteLine($"\nRecipe saved to {filePath} successfully.");
+        }
+
+        public static Dictionary<string, Dictionary<string, List<double>>> LoadUnitsFromJson(string path)
+        {
+            string jsonFile = File.ReadAllText(path);
+            return JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, List<double>>>>(jsonFile);
         }
     }
 }
