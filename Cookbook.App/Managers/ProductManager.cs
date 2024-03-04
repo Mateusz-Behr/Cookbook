@@ -24,6 +24,7 @@ namespace Cookbook.App.Managers
 
         public void RecalculateUnits()
         {
+            _productService.Initialize();
             var chosenProduct = ChooseProductToCalculate();
             var unitsList = _productService.GetUnitsListFromChosenProduct(chosenProduct);
             if (unitsList.Count > 0)

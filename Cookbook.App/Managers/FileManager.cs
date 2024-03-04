@@ -33,10 +33,27 @@ namespace Cookbook.App.Managers
             Console.WriteLine($"\nRecipe saved to {filePath} successfully.");
         }
 
-        public static Dictionary<string, Dictionary<string, List<double>>> LoadUnitsFromJson(string path)
-        {
-            string jsonFile = File.ReadAllText(path);
-            return JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, List<double>>>>(jsonFile);
-        }
+        //public static List<ProductInfo> LoadProductsFromJson(string path)
+        //{
+        //    string jsonFile = File.ReadAllText(path);
+        //    var products = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, List<double>>>>(jsonFile);
+
+        //    List<ProductInfo> productInfos = new();
+        //    foreach (var productEntry in products)
+        //    {
+        //        string productName = productEntry.Key;
+        //        var unitsData = productEntry.Value;
+
+        //        ProductInfo productInfo = new()
+        //        {
+        //            Name = productName,
+        //            Units = unitsData
+        //        };
+
+        //        productInfos.Add(productInfo);
+        //    }
+
+        //    return productInfos;
+        //}
     }
 }

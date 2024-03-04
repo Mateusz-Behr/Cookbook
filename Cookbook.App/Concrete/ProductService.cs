@@ -8,18 +8,19 @@ using Cookbook.App.Common;
 using Cookbook.App.Managers;
 using Cookbook.Domain.Entity;
 using Cookbook.Domain.Helpers;
+using Newtonsoft.Json;
 
 namespace Cookbook.App.Concrete
 {
     public class ProductService : BaseService<Product>
     {
 
-        public ProductService()
-        {
-            Initialize();
-        }
-
-        private const string UNITS_LIST_PATH = "C:\\Users\\behrm\\source\\UnitsToCalculator.json";
+        //public ProductService()
+        //{
+        //    Initialize();
+        //}
+        private const string PRODUCTS_LIST_PATH = "products_list.json";
+        //private const string UNITS_LIST_PATH = "C:\\Users\\behrm\\source\\UnitsToCalculator.json";
         public Dictionary<string, List<double>> GetUnitsListFromChosenProduct(int chosenProduct)
         {
 
@@ -85,14 +86,20 @@ namespace Cookbook.App.Concrete
             return new Product(name, units);
         }
 
-        private void Initialize()
+        public void Initialize()
         {
-            List<string> productNames = new() { "Water", "Sugar", "Butter", "WheatFlour", "Oil", "Cream18" };
-            Dictionary<string, Dictionary<string, List<double>>> unitsData = FileManager.LoadUnitsFromJson(UNITS_LIST_PATH);
+            //List<string> productNames = new() { "Water", "Sugar", "Butter", "WheatFlour", "Oil", "Cream18" };
+            //List<ProductInfo> loadedProducts = FileManager.LoadProductsFromJson(UNITS_LIST_PATH);
 
-            foreach (var (productName, units) in productNames.Zip(unitsData, (name, unitsDict) => (name, unitsDict.Value)))
+            //string json = JsonConvert.SerializeObject(loadedProducts);
+            //File.WriteAllText("products_list.json", json);
+
+            string jsonFile = File.ReadAllText(PRODUCTS_LIST_PATH);
+            List<ProductInfo> products_list = JsonConvert.DeserializeObject<List<ProductInfo>>(jsonFile);
+
+            foreach (var product in products_list)
             {
-                AddItem(CreateProduct(productName, units));
+                AddItem(CreateProduct(product.Name, product.Units));
             }
         }
         //    AddItem(CreateProduct("Water", waterUnits));
