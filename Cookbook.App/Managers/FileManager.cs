@@ -1,5 +1,6 @@
 ﻿using Cookbook.Domain.Entity;
 using Cookbook.Domain.Helpers;
+using Cookbook.App.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,7 @@ namespace Cookbook.App.Managers
 {
     public class FileManager
     {
+
         public static void SaveRecipeToTxtFile(string path, string name, Recipe recipe)
         {
             Helpers.MealType mealType = (Helpers.MealType)recipe.MealTypeNumber;
@@ -32,28 +34,5 @@ namespace Cookbook.App.Managers
 
             Console.WriteLine($"\nRecipe saved to {filePath} successfully.");
         }
-
-        //public static List<ProductInfo> LoadProductsFromJson(string path)
-        //{
-        //    string jsonFile = File.ReadAllText(path);
-        //    var products = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, List<double>>>>(jsonFile);
-
-        //    List<ProductInfo> productInfos = new();
-        //    foreach (var productEntry in products)
-        //    {
-        //        string productName = productEntry.Key;
-        //        var unitsData = productEntry.Value;
-
-        //        ProductInfo productInfo = new()
-        //        {
-        //            Name = productName,
-        //            Units = unitsData
-        //        };
-
-        //        productInfos.Add(productInfo);
-        //    }
-
-        //    return productInfos;
-        //}
     }
 }

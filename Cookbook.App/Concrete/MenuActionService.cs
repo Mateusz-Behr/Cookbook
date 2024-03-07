@@ -36,6 +36,7 @@ namespace Cookbook.App.Concrete
             AddItem(new MenuAction(3, "Convert kitchen units", "Main"));
             AddItem(new MenuAction(4, "Remove recipe", "Main"));
             AddItem(new MenuAction(5, "Update recipe", "Main"));
+            AddItem(new MenuAction(7, "Save recipes to Cookbook", "Main"));
             AddItem(new MenuAction(8, "Export recipes to txt file", "Main"));
             AddItem(new MenuAction(9, "Exit program", "Main"));
 

@@ -11,7 +11,7 @@ namespace Cookbook.Domain.Entity
     
     public class Recipe : BaseEntity
     {
-        private static int lastRecipeId = 0;
+        public static int lastRecipeId = 0;
         public string Name { get; set; }
         public List<string> Ingredients { get; set; }
         public string Instructions { get; set; }

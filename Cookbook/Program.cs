@@ -44,8 +44,11 @@ namespace Cookbook
                     case '5':
                         recipeManager.UpdateRecipe();
                         break;
+                    case '7':
+                        recipeManager.SaveCookbook();
+                        break;
                     case '8':
-                        recipeManager.ExportRecipesToTxt();
+                        recipeManager.ExportSingleRecipeToTxt();
                         break;
                     case '9':
                         Console.WriteLine("\nThank you for using the Cookbook App. See you soon!");

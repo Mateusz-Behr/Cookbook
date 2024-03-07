@@ -27,6 +27,7 @@ namespace Cookbook.App.Managers
         int preparationTime;
         private const string RECIPES_LIST_PATH = "C:\\Users\\behrm\\source\\RecipesList";
 
+
         public void AddNewRecipe()
         {
             ConsoleKeyInfo operation = _userManager.ShowMenu("RecipeMenu", "What type of meal you want to add?");
@@ -317,7 +318,7 @@ namespace Cookbook.App.Managers
 
             Console.WriteLine("The update was successful");
         }
-        public void ExportRecipesToTxt()
+        public void ExportSingleRecipeToTxt()
         {
             if (_recipeService.Items.Count == 0)
             {
@@ -346,7 +347,27 @@ namespace Cookbook.App.Managers
             {
                 Console.WriteLine("There is no recipe with that Id.");
             }
+        }
 
+        public void SaveCookbook()
+        {
+            string cookbookPath = RecipeService.COOKBOOK;
+
+            if (_recipeService.Items.Count == 0)
+            {
+                Console.WriteLine("There are no recipes to save.");
+                return;
+            }
+
+            if (UserActionManager.ConfirmSelection($"Are you sure you want to save your recipes to Cookbook?"))
+            {
+                _recipeService.SaveRecipesToJson(cookbookPath);
+                Console.WriteLine("Recipes have been saved.");
+            }
+            else
+            {
+                Console.WriteLine("\nRecipes have not been saved.");
+            }
         }
     }
 }
