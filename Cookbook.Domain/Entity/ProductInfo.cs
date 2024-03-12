@@ -10,6 +10,5 @@ namespace Cookbook.Domain.Entity
     {
         public string Name { get; set; }
         public Dictionary <string, List<double>> Units { get; set; }
-
     }
 }

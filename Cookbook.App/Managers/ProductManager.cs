@@ -24,7 +24,6 @@ namespace Cookbook.App.Managers
 
         public void RecalculateUnits()
         {
-            _productService.Initialize();
             var chosenProduct = ChooseProductToCalculate();
             var unitsList = _productService.GetUnitsListFromChosenProduct(chosenProduct);
             if (unitsList.Count > 0)
@@ -52,7 +51,7 @@ namespace Cookbook.App.Managers
         }
         public int ChooseProductToCalculate()
         {
-            int chosenProduct = _userManager.ShowLargeMenu("ShowProductsMenu", "\nChoose a product to recalculate units for:");
+            int chosenProduct = _userManager.ShowLargeMenu("ShowProductsMenu", "\nChoose a product to recalculate units for. Press ENTER to accept.");
 
             return chosenProduct;
 
@@ -60,7 +59,7 @@ namespace Cookbook.App.Managers
 
         public int ChooseUnitToCalculate()
         {
-            int chosenUnit = _userManager.ShowLargeMenu("ShowUnitsMenu", "\nChoose a unit you want to recalculate:");
+            int chosenUnit = _userManager.ShowLargeMenu("ShowUnitsMenu", "\nChoose a unit you want to recalculate. Press ENTER to accept.");
 
             return chosenUnit;
         }

@@ -1,4 +1,5 @@
-﻿using Cookbook.App.Common;
+﻿using Cookbook.App.Abstract;
+using Cookbook.App.Common;
 using Cookbook.Domain.Entity;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Cookbook.App.Concrete
 {
-    public class MenuActionService : BaseService<MenuAction>
+    public class MenuActionService : BaseService<MenuAction>, IMenuActionService
     {
         public MenuActionService()
         {

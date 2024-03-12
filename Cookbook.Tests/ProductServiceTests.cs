@@ -4,6 +4,7 @@ using Cookbook.Domain.Entity;
 using Cookbook.Domain.Helpers;
 using FluentAssertions;
 using Moq;
+using Xunit;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,20 +23,17 @@ namespace Cookbook.Tests
             { "spoon", new List<double> { 15, 15, 0.06, 1, 3 } },
             { "teaspoon", new List<double> { 5, 5, 0.02, 0.33, 1 } },
         };
+
         [Fact]
         public void GetUnitsListFromChosenProduct_ValidInput_ReturnsCorrectUnitsList()
         {
             //Arrange
-            var mock = new Mock<IService<Product>>(MockBehavior.Strict);
             var service = new ProductService();
-
             var chosenProduct = 1;
             var items = new List<Product>
             {
                 new ("Water", testUnits)
             };
-
-            mock.Setup(s => s.GetAllItems()).Returns(items);
 
             //Act
             var result = service.GetUnitsListFromChosenProduct(chosenProduct);
@@ -48,16 +46,9 @@ namespace Cookbook.Tests
         public void GetUnitsListFromChosenProduct_InvalidInput_ReturnsEmptyDictionary()
         {
             //Arrange
-            var mock = new Mock<IService<Product>>(MockBehavior.Strict);
             var service = new ProductService();
 
             var chosenProduct = 0;
-            var items = new List<Product>
-            {
-                new ("Water", testUnits)
-            };
-
-            mock.Setup(s => s.GetAllItems()).Returns(items);
 
             //Act
             var result = service.GetUnitsListFromChosenProduct(chosenProduct);
@@ -66,7 +57,6 @@ namespace Cookbook.Tests
             result.Should().BeEmpty();
         }
 
- 
         [Theory]
         [InlineData(1, "g")]
         [InlineData(2, "ml")]
@@ -98,6 +88,7 @@ namespace Cookbook.Tests
         public void GetUnitFullName_ReturnsCorrectUnitName(int chosenUnitNumber, string unitName)
         {
             //Arrange
+
             var service = new ProductService();
 
             //Act
@@ -123,6 +114,5 @@ namespace Cookbook.Tests
             //Assert
             result.Should().BeEquivalentTo(expectedResults);
         }
-
     }
 }

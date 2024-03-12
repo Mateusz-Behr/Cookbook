@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace Cookbook.App.Concrete
 {
-    public class RecipeService : BaseService<Recipe>
+    public class RecipeService : BaseService<Recipe>, IRecipeService
     {
         public const string COOKBOOK = "C:\\Users\\behrm\\source\\RecipesList\\Cookbook\\Cookbook.json";
         public RecipeService()

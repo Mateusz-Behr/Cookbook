@@ -75,7 +75,7 @@ namespace Cookbook.App.Managers
 
                 if (UserActionManager.ConfirmSelection("Do you want to save this recipe to a text file?"))
                 {
-                    FileManager.SaveRecipeToTxtFile(RECIPES_LIST_PATH, recipe.Name, recipe);
+                    SaveRecipeToTxtFile(RECIPES_LIST_PATH, recipe.Name, recipe);
                 }
             }
             else
@@ -336,7 +336,7 @@ namespace Cookbook.App.Managers
 
                 if (UserActionManager.ConfirmSelection($"Are you sure you want to export to .txt {recipeToExport.Name} recipe?"))
                 {
-                    FileManager.SaveRecipeToTxtFile(RECIPES_LIST_PATH, recipeToExport.Name, recipeToExport);
+                    SaveRecipeToTxtFile(RECIPES_LIST_PATH, recipeToExport.Name, recipeToExport);
                 }
                 else
                 {
@@ -368,6 +368,27 @@ namespace Cookbook.App.Managers
             {
                 Console.WriteLine("\nRecipes have not been saved.");
             }
+        }
+
+        public static void SaveRecipeToTxtFile(string path, string name, Recipe recipe)
+        {
+            Helpers.MealType mealType = (Helpers.MealType)recipe.MealTypeNumber;
+            string fileName = $"{name.Replace(" ", "_")}.txt";
+            string filePath = Path.Combine(path, fileName);
+
+            using StreamWriter writer = new(filePath);
+
+            writer.WriteLine($"Recipe: {recipe.Name}");
+            writer.WriteLine($"Type: {mealType}");
+            writer.WriteLine("Ingredients:");
+            foreach (var ingredient in recipe.Ingredients)
+            {
+                writer.WriteLine(ingredient);
+            }
+            writer.WriteLine($"Instructions: \n{recipe.Instructions}");
+            writer.WriteLine($"Prepration time: {recipe.PreparationTime} minutes");
+
+            Console.WriteLine($"\nRecipe saved to {filePath} successfully.");
         }
     }
 }

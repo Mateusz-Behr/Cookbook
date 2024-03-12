@@ -13,7 +13,6 @@ namespace Cookbook
     {
         static void Main(string[] args)
         {
-
             RecipeService recipeService = new();
             MenuActionService menuActionService = new();
             UserActionManager userManager = new (menuActionService);

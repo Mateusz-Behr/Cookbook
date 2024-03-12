@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using Cookbook.App.Abstract;
 using Cookbook.App.Common;
 using Cookbook.App.Managers;
 using Cookbook.Domain.Entity;
@@ -12,9 +13,15 @@ using Newtonsoft.Json;
 
 namespace Cookbook.App.Concrete
 {
-    public class ProductService : BaseService<Product>
+    public class ProductService : BaseService<Product>, IProductService
     {
         private const string PRODUCTS_LIST_PATH = "products_list.json";
+
+        public ProductService()
+        {
+            Initialize();
+        }
+
         public Dictionary<string, List<double>> GetUnitsListFromChosenProduct(int chosenProduct)
         {
             if (chosenProduct > 0 && chosenProduct <= Items.Count)
@@ -68,17 +75,17 @@ namespace Cookbook.App.Concrete
             return results;
         }
 
-        private Product CreateProduct(string name, Dictionary<string, List<double>> units)
+        private static Product CreateProduct(string name, Dictionary<string, List<double>> units)
         {
             return new Product(name, units);
         }
 
-        public void Initialize()
+        private void Initialize()
         {
             string jsonFile = File.ReadAllText(PRODUCTS_LIST_PATH);
-            List<ProductInfo> products_list = JsonConvert.DeserializeObject<List<ProductInfo>>(jsonFile);
+            List<ProductInfo> productsList = JsonConvert.DeserializeObject<List<ProductInfo>>(jsonFile);
 
-            foreach (var product in products_list)
+            foreach (var product in productsList)
             {
                 AddItem(CreateProduct(product.Name, product.Units));
             }
