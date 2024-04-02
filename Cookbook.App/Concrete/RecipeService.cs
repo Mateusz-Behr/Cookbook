@@ -17,32 +17,26 @@ namespace Cookbook.App.Concrete
 {
     public class RecipeService : BaseService<Recipe>, IRecipeService
     {
-        public const string COOKBOOK = "C:\\Users\\behrm\\source\\RecipesList\\Cookbook\\Cookbook.json";
+        public const string COOKBOOK = "..\\Cookbook.json";
+        readonly FileService fileService = new();
         public RecipeService()
         {
-            LoadRecipesFromJson(COOKBOOK);
+            GetMaxIdFromRecipesList();
         }
         public void RemoveRecipe(Recipe recipe)
         {
             Items.Remove(recipe);
         }
 
-        private void LoadRecipesFromJson(string path)
+        public void GetMaxIdFromRecipesList()
         {
-            if (File.Exists(path))
+            if (File.Exists(COOKBOOK)) 
             {
-                string jsonFile = File.ReadAllText(path);
-                Items = JsonConvert.DeserializeObject<List<Recipe>>(jsonFile);
+                Items = fileService.LoadItemsFromJson<Recipe>(COOKBOOK);
 
                 int maxId = Items.Max(r => r.Id);
                 Recipe.lastRecipeId = maxId;
-            }
-        }
-
-        public void SaveRecipesToJson(string path)
-        {
-            string json = JsonConvert.SerializeObject(Items, Formatting.Indented);
-            File.WriteAllText(path, json);
+            }    
         }
     }
 }

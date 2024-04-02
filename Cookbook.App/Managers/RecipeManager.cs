@@ -16,16 +16,18 @@ namespace Cookbook.App.Managers
     {
         private readonly UserActionManager _userManager;
         private readonly RecipeService _recipeService;
+        private readonly FileService _fileService;
 
-        public RecipeManager(UserActionManager userManager, RecipeService recipeService)
+        public RecipeManager(UserActionManager userManager, RecipeService recipeService, FileService fileService)
         {
             _recipeService = recipeService;
             _userManager = userManager;
+            _fileService = fileService;
         }
 
         bool isValidInput = false;
         int preparationTime;
-        private const string RECIPES_LIST_PATH = "C:\\Users\\behrm\\source\\RecipesList";
+        private const string RECIPES_LIST_PATH = "..\\ExportedRecipesList";
 
 
         public void AddNewRecipe()
@@ -275,7 +277,6 @@ namespace Cookbook.App.Managers
             }
         }
 
-
         private void ModifyRecipe(int chosenProperty, Recipe recipe)
         {
             switch (chosenProperty)
@@ -361,8 +362,8 @@ namespace Cookbook.App.Managers
 
             if (UserActionManager.ConfirmSelection($"Are you sure you want to save your recipes to Cookbook?"))
             {
-                _recipeService.SaveRecipesToJson(cookbookPath);
-                Console.WriteLine("Recipes have been saved.");
+                _fileService.SaveItemsToJson(_recipeService.Items, cookbookPath);
+                Console.WriteLine("\nRecipes have been saved.");
             }
             else
             {

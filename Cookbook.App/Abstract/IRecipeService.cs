@@ -10,7 +10,6 @@ namespace Cookbook.App.Abstract
     public interface IRecipeService
     {
         void RemoveRecipe(Recipe recipe);
-
-        void SaveRecipesToJson(string path);
+        void GetMaxIdFromRecipesList();
     }
 }

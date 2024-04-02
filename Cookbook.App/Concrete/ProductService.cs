@@ -15,7 +15,7 @@ namespace Cookbook.App.Concrete
 {
     public class ProductService : BaseService<Product>, IProductService
     {
-        private const string PRODUCTS_LIST_PATH = "products_list.json";
+        private const string PRODUCTS_LIST_PATH = "..\\products_list.json";
 
         public ProductService()
         {
